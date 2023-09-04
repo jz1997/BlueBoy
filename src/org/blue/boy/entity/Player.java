@@ -10,20 +10,23 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Player extends Entity {
-    GamePanel gp;
-    KeyHandler keyHandler;
+    public GamePanel gp;
+    public KeyHandler keyHandler;
+    public final int screenX;
+    public final int screenY;
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
         this.gp = gp;
         this.keyHandler = keyHandler;
-
+        screenX = gp.screenWidth / 2 - gp.tileSize / 2;
+        screenY = gp.screenHeight / 2 - gp.tileSize / 2;
         setDefaultValue();
         loadImage();
     }
 
     public void setDefaultValue() {
-        x = 100;
-        y = 100;
+        worldX = gp.tileSize * 23;
+        worldY = gp.tileSize * 21;
         speed = 4;
         direction = "down";
     }
@@ -47,16 +50,16 @@ public class Player extends Entity {
         if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
             if (keyHandler.upPressed) {
                 direction = "up";
-                y -= speed;
-            } if (keyHandler.downPressed) {
+                worldY -= speed;
+            } else if (keyHandler.downPressed) {
                 direction = "down";
-                y += speed;
+                worldY += speed;
             } else if (keyHandler.leftPressed) {
                 direction = "left";
-                x -= speed;
+                worldX -= speed;
             } else if (keyHandler.rightPressed) {
                 direction = "right";
-                x += speed;
+                worldX += speed;
             }
 
             spriteCounter++;
@@ -73,9 +76,6 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics2D g2d) {
-//        g2d.setColor(Color.white);
-//        g2d.fillRect(x, y, gp.tileSize, gp.tileSize);
-//        g2d.dispose();
         BufferedImage image = null;
         switch (direction) {
             case "up":
@@ -108,6 +108,6 @@ public class Player extends Entity {
                 break;
         }
 
-        g2d.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2d.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }

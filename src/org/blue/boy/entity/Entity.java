@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
     // 坐标信息
-    public int x, y;
+    public int worldX, worldY;
     // 移动速度
     public int speed;
 

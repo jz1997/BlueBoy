@@ -7,9 +7,13 @@ import java.awt.event.KeyListener;
  * 按键处理器
  */
 public class KeyHandler implements KeyListener {
+    // 方向上键
     public boolean upPressed;
+    // 方向下键
     public boolean downPressed;
+    // 方向左键
     public boolean leftPressed;
+    // 方向右键
     public boolean rightPressed;
 
     @Override
