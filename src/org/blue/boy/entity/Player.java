@@ -18,9 +18,18 @@ public class Player extends Entity {
     public Player(GamePanel gp, KeyHandler keyHandler) {
         this.gp = gp;
         this.keyHandler = keyHandler;
+
+        // 初始化英雄屏幕中心坐标
         screenX = gp.screenWidth / 2 - gp.tileSize / 2;
         screenY = gp.screenHeight / 2 - gp.tileSize / 2;
+
+        // 初始化英雄碰撞矩形
+        solidArea = new Rectangle(8, 16, 32, 32);
+
+        // 设置部分默认值
         setDefaultValue();
+
+        // 加载英雄动作图片
         loadImage();
     }
 
@@ -50,16 +59,27 @@ public class Player extends Entity {
         if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
             if (keyHandler.upPressed) {
                 direction = "up";
-                worldY -= speed;
             } else if (keyHandler.downPressed) {
                 direction = "down";
-                worldY += speed;
             } else if (keyHandler.leftPressed) {
                 direction = "left";
-                worldX -= speed;
             } else if (keyHandler.rightPressed) {
                 direction = "right";
-                worldX += speed;
+            }
+
+            // 检测碰撞
+            collisionOn = false;
+            gp.collisionChecker.checkTile(this);
+            if (!collisionOn) {
+                if (keyHandler.upPressed) {
+                    worldY -= speed;
+                } else if (keyHandler.downPressed) {
+                    worldY += speed;
+                } else if (keyHandler.leftPressed) {
+                    worldX -= speed;
+                } else if (keyHandler.rightPressed) {
+                    worldX += speed;
+                }
             }
 
             spriteCounter++;

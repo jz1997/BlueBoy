@@ -1,10 +1,16 @@
 package org.blue.boy.entity;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Entity {
     // 坐标信息
     public int worldX, worldY;
+
+    // 碰撞矩形
+    public Rectangle solidArea;
+    public boolean collisionOn = false;
+
     // 移动速度
     public int speed;
 

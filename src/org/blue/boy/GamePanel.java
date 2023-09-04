@@ -28,6 +28,8 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
     TileManager tileManager = new TileManager(this);
+    // Collision Checker
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyHandler);
 
     public GamePanel() {
@@ -62,7 +64,6 @@ public class GamePanel extends JPanel implements Runnable {
                 repaint();
                 delta--;
             }
-
         }
     }
 

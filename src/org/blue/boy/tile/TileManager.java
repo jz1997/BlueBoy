@@ -13,9 +13,9 @@ import java.util.Objects;
  */
 public class TileManager {
     GamePanel gp;
-    Tile[] tiles = new Tile[10];
+    public Tile[] tiles = new Tile[10];
 
-    int[][] mapNum = null;
+    public int[][] mapNum = null;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -55,10 +55,12 @@ public class TileManager {
             // 墙壁
             tiles[1] = new Tile();
             tiles[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/wall.png")));
+            tiles[1].collision = true;
 
             // 水
             tiles[2] = new Tile();
             tiles[2].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/water.png")));
+            tiles[2].collision = true;
 
             // 地球
             tiles[3] = new Tile();
@@ -67,6 +69,7 @@ public class TileManager {
             // 树
             tiles[4] = new Tile();
             tiles[4].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/tree.png")));
+            tiles[4].collision = true;
 
             // 沙漠
             tiles[5] = new Tile();
@@ -82,11 +85,7 @@ public class TileManager {
             for (int col = 0; col < gp.maxWorldCol; col++) {
                 int worldX = gp.tileSize * col;
                 int worldY = gp.tileSize * row;
-                if (worldX >= gp.player.worldX - gp.player.screenX &&
-                        worldX <= gp.player.worldX + gp.player.screenX &&
-                        worldY <= gp.player.worldY + gp.player.screenY &&
-                        worldY >= gp.player.worldY - gp.player.screenY
-                ) {
+                if (isInRenderRectangle(worldX, worldY)) {
                     int screenX = gp.tileSize * col - gp.player.worldX + gp.player.screenX;
                     int screenY = gp.tileSize * row - gp.player.worldY + gp.player.screenY;
                     BufferedImage image = tiles[mapNum[row][col]].image;
@@ -94,5 +93,12 @@ public class TileManager {
                 }
             }
         }
+    }
+
+    private boolean isInRenderRectangle(int x, int y) {
+        return x + gp.tileSize >= gp.player.worldX - gp.player.screenX &&
+                x - gp.tileSize <= gp.player.worldX + gp.player.screenX &&
+                y - gp.tileSize <= gp.player.worldY + gp.player.screenY &&
+                y + gp.tileSize >= gp.player.worldY - gp.player.screenY;
     }
 }
