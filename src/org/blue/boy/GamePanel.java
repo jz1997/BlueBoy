@@ -1,7 +1,9 @@
 package org.blue.boy;
 
-import org.blue.boy.entity.Player;
+import org.blue.boy.entity.SuperObject;
+import org.blue.boy.object.AssetSetter;
 import org.blue.boy.tile.TileManager;
+import org.blue.boy.utils.FileUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,9 +29,12 @@ public class GamePanel extends JPanel implements Runnable {
     // 按键监听器
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
-    TileManager tileManager = new TileManager(this);
+    public TileManager tileManager = new TileManager(this);
     // Collision Checker
     public CollisionChecker collisionChecker = new CollisionChecker(this);
+    public AssetSetter assetSetter = new AssetSetter(this);
+    public FileUtil fileUtil = new FileUtil();
+    public SuperObject[] objects = new SuperObject[10];
     public Player player = new Player(this, keyHandler);
 
     public GamePanel() {
@@ -38,6 +43,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
+    }
+
+    void setUpGame() {
+        assetSetter.setObject();
     }
 
     /**
@@ -83,7 +92,17 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2d = (Graphics2D) g;
 
+        // draw tiles
         tileManager.draw(g2d);
+
+        // draw objects, such as key, door ...
+        for (SuperObject object : objects) {
+            if (object != null) {
+                object.draw(g2d, this);
+            }
+        }
+
+        // draw player
         player.draw(g2d);
     }
 }

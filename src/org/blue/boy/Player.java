@@ -1,7 +1,9 @@
-package org.blue.boy.entity;
+package org.blue.boy;
 
 import org.blue.boy.GamePanel;
 import org.blue.boy.KeyHandler;
+import org.blue.boy.entity.Entity;
+import org.blue.boy.utils.FileUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -41,18 +43,14 @@ public class Player extends Entity {
     }
 
     public void loadImage() {
-        try {
-            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_up_1.png")));
-            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_up_2.png")));
-            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_down_1.png")));
-            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_down_2.png")));
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_left_1.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_left_2.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_right_1.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/boy_right_2.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        up1 = gp.fileUtil.loadImage("/player/boy_up_1.png");
+        up2 = gp.fileUtil.loadImage("/player/boy_up_2.png");
+        down1 = gp.fileUtil.loadImage("/player/boy_down_1.png");
+        down2 = gp.fileUtil.loadImage("/player/boy_down_2.png");
+        left1 = gp.fileUtil.loadImage("/player/boy_left_1.png");
+        left2 = gp.fileUtil.loadImage("/player/boy_left_2.png");
+        right1 = gp.fileUtil.loadImage("/player/boy_right_1.png");
+        right2 = gp.fileUtil.loadImage("/player/boy_right_2.png");
     }
 
     public void update() {

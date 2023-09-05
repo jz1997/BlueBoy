@@ -20,28 +20,24 @@ public class CollisionChecker {
         int entityTopWorldRow = entityTopWorldY / gp.tileSize;
         int entityBottomWorldRow = entityBottomWorldY / gp.tileSize;
 
-        int tileNum1, tileNum2;
         switch (entity.direction) {
             case "up":
-                tileNum1 = gp.tileManager.mapNum[entityTopWorldRow][entityLeftWorldCol];
-                tileNum2 = gp.tileManager.mapNum[entityTopWorldRow][entityRightWorldCol];
-                entity.collisionOn = gp.tileManager.tiles[tileNum1].collision || gp.tileManager.tiles[tileNum2].collision;
+                entity.collisionOn = checkCollision(entityTopWorldRow, entityLeftWorldCol) || checkCollision(entityTopWorldRow, entityRightWorldCol);
                 break;
             case "down":
-                tileNum1 = gp.tileManager.mapNum[entityBottomWorldRow][entityLeftWorldCol];
-                tileNum2 = gp.tileManager.mapNum[entityBottomWorldRow][entityRightWorldCol];
-                entity.collisionOn = gp.tileManager.tiles[tileNum1].collision || gp.tileManager.tiles[tileNum2].collision;
+                entity.collisionOn = checkCollision(entityBottomWorldRow, entityLeftWorldCol) || checkCollision(entityBottomWorldRow, entityRightWorldCol);
                 break;
             case "left":
-                tileNum1 = gp.tileManager.mapNum[entityTopWorldRow][entityLeftWorldCol];
-                tileNum2 = gp.tileManager.mapNum[entityBottomWorldRow][entityLeftWorldCol];
-                entity.collisionOn = gp.tileManager.tiles[tileNum1].collision || gp.tileManager.tiles[tileNum2].collision;
+                entity.collisionOn = checkCollision(entityTopWorldRow, entityLeftWorldCol) || checkCollision(entityBottomWorldRow, entityLeftWorldCol);
                 break;
             case "right":
-                tileNum1 = gp.tileManager.mapNum[entityTopWorldRow][entityRightWorldCol];
-                tileNum2 = gp.tileManager.mapNum[entityTopWorldRow][entityRightWorldCol];
-                entity.collisionOn = gp.tileManager.tiles[tileNum1].collision || gp.tileManager.tiles[tileNum2].collision;
+                entity.collisionOn = checkCollision(entityTopWorldRow, entityRightWorldCol) || checkCollision(entityBottomWorldRow, entityRightWorldCol);
                 break;
         }
+    }
+
+    private boolean checkCollision(int row, int col) {
+        int tileNum = gp.tileManager.mapNum[row][col];
+        return gp.tileManager.tiles[tileNum].collision;
     }
 }

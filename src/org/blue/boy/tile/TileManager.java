@@ -95,7 +95,7 @@ public class TileManager {
         }
     }
 
-    private boolean isInRenderRectangle(int x, int y) {
+    public boolean isInRenderRectangle(int x, int y) {
         return x + gp.tileSize >= gp.player.worldX - gp.player.screenX &&
                 x - gp.tileSize <= gp.player.worldX + gp.player.screenX &&
                 y - gp.tileSize <= gp.player.worldY + gp.player.screenY &&
