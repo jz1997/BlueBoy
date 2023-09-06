@@ -26,9 +26,8 @@ public class TileManager {
     public void loadMap(String filePath) {
         mapNum = new int[gp.maxWorldRow][gp.maxWorldCol];
 
-        try (
-                InputStream inputStream = getClass().getResourceAsStream(filePath);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream)));
+        try (InputStream inputStream = gp.fileUtil.loadFile(filePath);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))
         ) {
             String line = null;
             int row = 0;
@@ -47,58 +46,58 @@ public class TileManager {
     }
 
     public void loadTileImage() {
-        try {
-            // 草地
-            tiles[0] = new Tile();
-            tiles[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/grass.png")));
+        // 草地
+        tiles[0] = new Tile();
+        tiles[0].image = gp.fileUtil.loadImage("/tiles/grass.png");
 
-            // 墙壁
-            tiles[1] = new Tile();
-            tiles[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/wall.png")));
-            tiles[1].collision = true;
+        // 墙壁
+        tiles[1] = new Tile();
+        tiles[1].image = gp.fileUtil.loadImage("/tiles/wall.png");
+        tiles[1].collision = true;
 
-            // 水
-            tiles[2] = new Tile();
-            tiles[2].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/water.png")));
-            tiles[2].collision = true;
+        // 水
+        tiles[2] = new Tile();
+        tiles[2].image = gp.fileUtil.loadImage("/tiles/water.png");
+        tiles[2].collision = true;
 
-            // 地球
-            tiles[3] = new Tile();
-            tiles[3].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/earth.png")));
+        // 地球
+        tiles[3] = new Tile();
+        tiles[3].image = gp.fileUtil.loadImage("/tiles/earth.png");
 
-            // 树
-            tiles[4] = new Tile();
-            tiles[4].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/tree.png")));
-            tiles[4].collision = true;
+        // 树
+        tiles[4] = new Tile();
+        tiles[4].image = gp.fileUtil.loadImage("/tiles/tree.png");
+        tiles[4].collision = true;
 
-            // 沙漠
-            tiles[5] = new Tile();
-            tiles[5].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/tiles/sand.png")));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        // 沙漠
+        tiles[5] = new Tile();
+        tiles[5].image = gp.fileUtil.loadImage("/tiles/sand.png");
     }
 
 
     public void draw(Graphics2D g2d) {
         for (int row = 0; row < gp.maxWorldRow; row++) {
             for (int col = 0; col < gp.maxWorldCol; col++) {
-                int worldX = gp.tileSize * col;
-                int worldY = gp.tileSize * row;
+                int worldX = GamePanel.tileSize * col;
+                int worldY = GamePanel.tileSize * row;
                 if (isInRenderRectangle(worldX, worldY)) {
-                    int screenX = gp.tileSize * col - gp.player.worldX + gp.player.screenX;
-                    int screenY = gp.tileSize * row - gp.player.worldY + gp.player.screenY;
+                    int screenX = GamePanel.tileSize * col - gp.player.worldX + gp.player.screenX;
+                    int screenY = GamePanel.tileSize * row - gp.player.worldY + gp.player.screenY;
                     BufferedImage image = tiles[mapNum[row][col]].image;
-                    g2d.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
+
+                    // TODO: 测试用
+                    g2d.setColor(Color.red);
+                    g2d.drawRect(screenX, screenY, GamePanel.tileSize, GamePanel.tileSize);
                 }
             }
         }
     }
 
     public boolean isInRenderRectangle(int x, int y) {
-        return x + gp.tileSize >= gp.player.worldX - gp.player.screenX &&
-                x - gp.tileSize <= gp.player.worldX + gp.player.screenX &&
-                y - gp.tileSize <= gp.player.worldY + gp.player.screenY &&
-                y + gp.tileSize >= gp.player.worldY - gp.player.screenY;
+        return x + GamePanel.tileSize >= gp.player.worldX - gp.player.screenX &&
+                x - GamePanel.tileSize <= gp.player.worldX + gp.player.screenX &&
+                y - GamePanel.tileSize <= gp.player.worldY + gp.player.screenY &&
+                y + GamePanel.tileSize >= gp.player.worldY - gp.player.screenY;
     }
 }

@@ -3,6 +3,7 @@ package org.blue.boy;
 import org.blue.boy.GamePanel;
 import org.blue.boy.KeyHandler;
 import org.blue.boy.entity.Entity;
+import org.blue.boy.entity.SuperObject;
 import org.blue.boy.utils.FileUtil;
 
 import javax.imageio.ImageIO;
@@ -10,23 +11,31 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Logger;
+
+import static org.blue.boy.Direction.*;
 
 public class Player extends Entity {
+    private static final Logger LOG = Logger.getLogger("Player");
+
     public GamePanel gp;
     public KeyHandler keyHandler;
     public final int screenX;
     public final int screenY;
+    public int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
         this.gp = gp;
         this.keyHandler = keyHandler;
 
         // 初始化英雄屏幕中心坐标
-        screenX = gp.screenWidth / 2 - gp.tileSize / 2;
-        screenY = gp.screenHeight / 2 - gp.tileSize / 2;
+        screenX = gp.screenWidth / 2 - GamePanel.tileSize / 2;
+        screenY = gp.screenHeight / 2 - GamePanel.tileSize / 2;
 
         // 初始化英雄碰撞矩形
         solidArea = new Rectangle(8, 16, 32, 32);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
 
         // 设置部分默认值
         setDefaultValue();
@@ -36,10 +45,10 @@ public class Player extends Entity {
     }
 
     public void setDefaultValue() {
-        worldX = gp.tileSize * 23;
-        worldY = gp.tileSize * 21;
+        worldX = GamePanel.tileSize * 23;
+        worldY = GamePanel.tileSize * 21;
         speed = 4;
-        direction = "down";
+        direction = DOWN;
     }
 
     public void loadImage() {
@@ -56,18 +65,23 @@ public class Player extends Entity {
     public void update() {
         if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
             if (keyHandler.upPressed) {
-                direction = "up";
+                direction = UP;
             } else if (keyHandler.downPressed) {
-                direction = "down";
+                direction = DOWN;
             } else if (keyHandler.leftPressed) {
-                direction = "left";
+                direction = LEFT;
             } else if (keyHandler.rightPressed) {
-                direction = "right";
+                direction = RIGHT;
             }
 
-            // 检测碰撞
+            // 检测 TILES 碰撞
             collisionOn = false;
             gp.collisionChecker.checkTile(this);
+
+            // 检测 Object 碰撞
+            int objIndex = gp.collisionChecker.checkObject(this, true);
+            handleObjectCollision(objIndex);
+
             if (!collisionOn) {
                 if (keyHandler.upPressed) {
                     worldY -= speed;
@@ -80,6 +94,7 @@ public class Player extends Entity {
                 }
             }
 
+            // 动画计数器
             spriteCounter++;
             if (spriteCounter > 12) {
                 if (spriteNum == 1) {
@@ -93,31 +108,67 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * 处理特殊物品碰撞
+     *
+     * @param objIndex /
+     */
+    private void handleObjectCollision(int objIndex) {
+        if (objIndex == -1) {
+            return;
+        }
+
+        SuperObject object = gp.objects[objIndex];
+        if (object == null) {
+            return;
+        }
+
+        switch (object.name) {
+            case "Key":
+                LOG.info(() -> "Pick up a key");
+                hasKey++;
+                gp.objects[objIndex] = null;
+                break;
+            case "Door":
+                if (hasKey > 0) {
+                    LOG.info(() -> "Open the door");
+                    gp.objects[objIndex] = null;
+                    hasKey--;
+                } else {
+                    LOG.info(() -> "Has no key to open the door");
+                }
+                break;
+            case "Chest":
+                LOG.info(() -> "Touch object 'Chest'");
+                break;
+        }
+    }
+
     public void draw(Graphics2D g2d) {
         BufferedImage image = null;
         switch (direction) {
-            case "up":
+            case UP:
                 if (spriteNum == 1) {
                     image = up1;
                 } else if (spriteNum == 2) {
                     image = up2;
                 }
                 break;
-            case "down":
+            case DOWN:
                 if (spriteNum == 1) {
                     image = down1;
                 } else if (spriteNum == 2) {
                     image = down2;
                 }
                 break;
-            case "left":
+            case LEFT:
                 if (spriteNum == 1) {
                     image = left1;
                 } else if (spriteNum == 2) {
                     image = left2;
                 }
                 break;
-            case "right":
+            case RIGHT:
                 if (spriteNum == 1) {
                     image = right1;
                 } else if (spriteNum == 2) {
@@ -126,6 +177,10 @@ public class Player extends Entity {
                 break;
         }
 
-        g2d.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
+
+        // TODO: 记得删除
+        g2d.setColor(Color.green);
+        g2d.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 }

@@ -1,6 +1,9 @@
 package org.blue.boy;
 
 import org.blue.boy.entity.Entity;
+import org.blue.boy.entity.SuperObject;
+
+import java.awt.*;
 
 public class CollisionChecker {
     GamePanel gp;
@@ -9,35 +12,80 @@ public class CollisionChecker {
         this.gp = gp;
     }
 
+    /**
+     * 检测 entity 是否和 周围的 tile 碰撞
+     * @param entity {@link Entity} {@link Player} ...
+     */
     public void checkTile(Entity entity) {
         int entityLeftWorldX = entity.worldX + entity.solidArea.x;
         int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
         int entityTopWorldY = entity.worldY + entity.solidArea.y;
         int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
 
-        int entityLeftWorldCol = entityLeftWorldX / gp.tileSize;
-        int entityRightWorldCol = entityRightWorldX / gp.tileSize;
-        int entityTopWorldRow = entityTopWorldY / gp.tileSize;
-        int entityBottomWorldRow = entityBottomWorldY / gp.tileSize;
-
         switch (entity.direction) {
-            case "up":
-                entity.collisionOn = checkCollision(entityTopWorldRow, entityLeftWorldCol) || checkCollision(entityTopWorldRow, entityRightWorldCol);
+            case UP:
+                entity.collisionOn = getTitleCollision(entityLeftWorldX, entityTopWorldY, entity.direction, entity.speed) ||
+                        getTitleCollision(entityRightWorldX, entityTopWorldY, entity.direction, entity.speed);
                 break;
-            case "down":
-                entity.collisionOn = checkCollision(entityBottomWorldRow, entityLeftWorldCol) || checkCollision(entityBottomWorldRow, entityRightWorldCol);
+            case DOWN:
+                entity.collisionOn = getTitleCollision(entityLeftWorldX, entityBottomWorldY, entity.direction, entity.speed) ||
+                        getTitleCollision(entityRightWorldX, entityBottomWorldY, entity.direction, entity.speed);
                 break;
-            case "left":
-                entity.collisionOn = checkCollision(entityTopWorldRow, entityLeftWorldCol) || checkCollision(entityBottomWorldRow, entityLeftWorldCol);
+            case LEFT:
+                entity.collisionOn = getTitleCollision(entityLeftWorldX, entityTopWorldY, entity.direction, entity.speed) ||
+                        getTitleCollision(entityLeftWorldX, entityBottomWorldY, entity.direction, entity.speed);
                 break;
-            case "right":
-                entity.collisionOn = checkCollision(entityTopWorldRow, entityRightWorldCol) || checkCollision(entityBottomWorldRow, entityRightWorldCol);
+            case RIGHT:
+                entity.collisionOn = getTitleCollision(entityRightWorldX, entityTopWorldY, entity.direction, entity.speed) ||
+                        getTitleCollision(entityRightWorldX, entityBottomWorldY, entity.direction, entity.speed);
                 break;
         }
     }
 
-    private boolean checkCollision(int row, int col) {
+    private boolean getTileCollision(int row, int col) {
         int tileNum = gp.tileManager.mapNum[row][col];
         return gp.tileManager.tiles[tileNum].collision;
+    }
+
+    private boolean getTitleCollision(int x, int y, Direction direction, int speed) {
+        switch (direction) {
+            case UP:
+                y -= speed;
+                break;
+            case DOWN:
+                y += speed;
+                break;
+            case LEFT:
+                x -= speed;
+                break;
+            case RIGHT:
+                x += speed;
+                break;
+        }
+        return getTileCollision(y / GamePanel.tileSize, x / GamePanel.tileSize);
+    }
+
+
+    public int checkObject(Entity entity, boolean isPlayer) {
+        Rectangle entityWorldRectangle = entity.getWorldNextStepRectangle();
+        for (int i = 0; i < gp.objects.length; i++) {
+            SuperObject obj = gp.objects[i];
+            if (obj == null) {
+                continue;
+            }
+
+            Rectangle objWorldRectangle = obj.getWorldRectangle();
+            // 碰撞
+            if (entityWorldRectangle.intersects(objWorldRectangle)) {
+                // 是玩家
+                if (isPlayer) {
+                    if (obj.collision) {
+                        entity.collisionOn = true;
+                    }
+                }
+                return i;
+            }
+        }
+        return -1;
     }
 }

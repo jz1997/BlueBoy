@@ -10,9 +10,9 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
     // 屏幕设置
-    final int originalTileSize = 16; // 原始区块大小
-    final int scale = 3; // 缩放比例    
-    public final int tileSize = originalTileSize * scale; // 48 * 48
+    public static final int originalTileSize = 16; // 原始区块大小
+    public static final int scale = 3; // 缩放比例
+    public static final int tileSize = originalTileSize * scale; // 48 * 48
     public final int maxScreenCol = 16; // 16 列
     public final int maxScreenRow = 12; // 12 行
     public final int screenWidth = tileSize * maxScreenCol; // 768px
@@ -29,11 +29,11 @@ public class GamePanel extends JPanel implements Runnable {
     // 按键监听器
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
-    public TileManager tileManager = new TileManager(this);
     // Collision Checker
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
     public FileUtil fileUtil = new FileUtil();
+    public TileManager tileManager = new TileManager(this);
     public SuperObject[] objects = new SuperObject[10];
     public Player player = new Player(this, keyHandler);
 

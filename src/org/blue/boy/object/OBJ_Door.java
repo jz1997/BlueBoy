@@ -10,5 +10,6 @@ public class OBJ_Door extends SuperObject {
         this.gp = gp;
         image = gp.fileUtil.loadImage("/objects/door.png");
         name = "Door";
+        collision = true;
     }
 }

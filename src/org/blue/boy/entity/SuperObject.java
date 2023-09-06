@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 public class SuperObject {
     public BufferedImage image;
     public String name;
+    public Rectangle solidArea = new Rectangle(0, 0, GamePanel.tileSize, GamePanel.tileSize);
     public boolean collision = false;
     public int worldX, worldY;
 
@@ -15,7 +16,11 @@ public class SuperObject {
         if (gp.tileManager.isInRenderRectangle(worldX, worldY)) {
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
-            g2d.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
         }
+    }
+
+    public Rectangle getWorldRectangle() {
+        return new Rectangle(worldX + solidArea.x, worldY + solidArea.y, solidArea.width, solidArea.height);
     }
 }
