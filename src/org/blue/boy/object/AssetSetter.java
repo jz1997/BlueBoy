@@ -42,5 +42,10 @@ public class AssetSetter {
         gp.objects[6] = new OBJ_Chest(gp);
         gp.objects[6].worldX = 10 * GamePanel.tileSize;
         gp.objects[6].worldY = 7 * GamePanel.tileSize;
+
+        // 鞋子
+        gp.objects[6] = new OBJ_Boots(gp);
+        gp.objects[6].worldX = 37 * GamePanel.tileSize;
+        gp.objects[6].worldY = 42 * GamePanel.tileSize;
     }
 }

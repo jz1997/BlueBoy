@@ -2,6 +2,7 @@ package org.blue.boy;
 
 import org.blue.boy.entity.SuperObject;
 import org.blue.boy.object.AssetSetter;
+import org.blue.boy.sound.SoundManager;
 import org.blue.boy.tile.TileManager;
 import org.blue.boy.utils.FileUtil;
 
@@ -34,6 +35,8 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter assetSetter = new AssetSetter(this);
     public FileUtil fileUtil = new FileUtil();
     public TileManager tileManager = new TileManager(this);
+    public SoundManager musicManager = new SoundManager(this);
+    public SoundManager seManager = new SoundManager(this);
     public SuperObject[] objects = new SuperObject[10];
     public Player player = new Player(this, keyHandler);
 
@@ -47,6 +50,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     void setUpGame() {
         assetSetter.setObject();
+
+        // 播放背景音乐
+        musicManager.playMusic(0, true);
     }
 
     /**

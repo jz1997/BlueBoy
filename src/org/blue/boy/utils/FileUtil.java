@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -30,5 +31,15 @@ public class FileUtil {
             throw new RuntimeException(String.format("Cannot open file '%s'", relativeFilePath));
         }
         return inputStream;
+    }
+
+    public URL loadSoundURL(String relativeFilePath) {
+        LOG.info(() -> String.format("Loading sound '%s'", relativeFilePath));
+        URL url = getClass().getResource(relativeFilePath);
+        if (url == null) {
+            LOG.severe(() -> String.format("Loading sound '%s' error '%s'.", relativeFilePath, "NULL URL"));
+            throw new RuntimeException(String.format("Cannot open file '%s'", relativeFilePath));
+        }
+        return url;
     }
 }

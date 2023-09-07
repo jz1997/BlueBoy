@@ -1,16 +1,10 @@
 package org.blue.boy;
 
-import org.blue.boy.GamePanel;
-import org.blue.boy.KeyHandler;
 import org.blue.boy.entity.Entity;
 import org.blue.boy.entity.SuperObject;
-import org.blue.boy.utils.FileUtil;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 import static org.blue.boy.Direction.*;
@@ -33,7 +27,7 @@ public class Player extends Entity {
         screenY = gp.screenHeight / 2 - GamePanel.tileSize / 2;
 
         // 初始化英雄碰撞矩形
-        solidArea = new Rectangle(8, 16, 32, 32);
+        solidArea = new Rectangle(8, 14, 32, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
@@ -123,17 +117,20 @@ public class Player extends Entity {
             return;
         }
 
+        // 接触的特殊物品
         switch (object.name) {
             case "Key":
                 LOG.info(() -> "Pick up a key");
                 hasKey++;
                 gp.objects[objIndex] = null;
+                gp.seManager.playMusic(1, false);
                 break;
             case "Door":
                 if (hasKey > 0) {
                     LOG.info(() -> "Open the door");
                     gp.objects[objIndex] = null;
                     hasKey--;
+                    gp.seManager.playMusic(3, false);
                 } else {
                     LOG.info(() -> "Has no key to open the door");
                 }
@@ -141,6 +138,14 @@ public class Player extends Entity {
             case "Chest":
                 LOG.info(() -> "Touch object 'Chest'");
                 break;
+            case "Boots":
+                LOG.info(() -> "Pick up a boots");
+                speed += 1;
+                gp.objects[objIndex] = null;
+                gp.seManager.playMusic(2, false);
+                break;
+            default:
+                LOG.info(() -> "Touch unknown object");
         }
     }
 
