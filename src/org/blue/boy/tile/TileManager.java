@@ -1,12 +1,10 @@
 package org.blue.boy.tile;
 
-import org.blue.boy.GamePanel;
+import org.blue.boy.main.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Objects;
 
 /**
  * tile 管理器

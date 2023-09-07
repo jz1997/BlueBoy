@@ -1,6 +1,6 @@
 package org.blue.boy.sound;
 
-import org.blue.boy.GamePanel;
+import org.blue.boy.main.GamePanel;
 
 import javax.sound.sampled.*;
 import java.io.IOException;

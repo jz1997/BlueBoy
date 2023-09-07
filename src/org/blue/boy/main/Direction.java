@@ -1,4 +1,4 @@
-package org.blue.boy;
+package org.blue.boy.main;
 
 public enum Direction {
     LEFT,

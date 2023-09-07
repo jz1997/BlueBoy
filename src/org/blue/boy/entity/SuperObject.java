@@ -1,6 +1,6 @@
 package org.blue.boy.entity;
 
-import org.blue.boy.GamePanel;
+import org.blue.boy.main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,6 +1,6 @@
 package org.blue.boy.entity;
 
-import org.blue.boy.Direction;
+import org.blue.boy.main.Direction;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

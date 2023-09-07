@@ -1,6 +1,6 @@
 package org.blue.boy.object;
 
-import org.blue.boy.GamePanel;
+import org.blue.boy.main.GamePanel;
 import org.blue.boy.entity.SuperObject;
 
 public class OBJ_Door extends SuperObject {

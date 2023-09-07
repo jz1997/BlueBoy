@@ -1,6 +1,6 @@
 package org.blue.boy.object;
 
-import org.blue.boy.GamePanel;
+import org.blue.boy.main.GamePanel;
 
 public class AssetSetter {
     GamePanel gp;

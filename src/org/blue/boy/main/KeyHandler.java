@@ -1,4 +1,4 @@
-package org.blue.boy;
+package org.blue.boy.main;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

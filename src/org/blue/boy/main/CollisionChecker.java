@@ -1,4 +1,4 @@
-package org.blue.boy;
+package org.blue.boy.main;
 
 import org.blue.boy.entity.Entity;
 import org.blue.boy.entity.SuperObject;

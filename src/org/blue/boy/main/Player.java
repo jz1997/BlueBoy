@@ -1,4 +1,4 @@
-package org.blue.boy;
+package org.blue.boy.main;
 
 import org.blue.boy.entity.Entity;
 import org.blue.boy.entity.SuperObject;
@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
-import static org.blue.boy.Direction.*;
+import static org.blue.boy.main.Direction.*;
 
 public class Player extends Entity {
     private static final Logger LOG = Logger.getLogger("Player");
