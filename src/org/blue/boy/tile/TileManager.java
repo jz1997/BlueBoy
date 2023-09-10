@@ -85,8 +85,8 @@ public class TileManager {
                     g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
 
                     // TODO: 测试用
-                    g2d.setColor(Color.red);
-                    g2d.drawRect(screenX, screenY, GamePanel.tileSize, GamePanel.tileSize);
+                    // g2d.setColor(Color.red);
+                    // g2d.drawRect(screenX, screenY, GamePanel.tileSize, GamePanel.tileSize);
                 }
             }
         }

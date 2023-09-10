@@ -1,6 +1,7 @@
 package org.blue.boy.utils;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -41,5 +42,13 @@ public class FileUtil {
             throw new RuntimeException(String.format("Cannot open file '%s'", relativeFilePath));
         }
         return url;
+    }
+
+    public BufferedImage scaleImage(BufferedImage originalImage, int width, int height) {
+        BufferedImage scaledImage = new BufferedImage(width, height, originalImage.getType());
+        Graphics2D g = scaledImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, width, height, null);
+        g.dispose();
+        return scaledImage;
     }
 }

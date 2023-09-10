@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldCol = 50;
     public final int worldWidth = maxWorldCol * tileSize;
     public final int worldHeight = maxWorldRow * tileSize;
+    public boolean gameFinished = false;
 
     // 按键监听器
     KeyHandler keyHandler = new KeyHandler();
@@ -37,8 +38,10 @@ public class GamePanel extends JPanel implements Runnable {
     public TileManager tileManager = new TileManager(this);
     public SoundManager musicManager = new SoundManager(this);
     public SoundManager seManager = new SoundManager(this);
+    public UI ui = new UI(this);
     public SuperObject[] objects = new SuperObject[10];
     public Player player = new Player(this, keyHandler);
+
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -69,7 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         double lastDrawTime = System.nanoTime();
         double currentTime;
-        while (true) {
+        while (!gameFinished) {
             currentTime = System.nanoTime();
             // 是否到了一个绘制周期
             delta += (currentTime - lastDrawTime) / drawInterval;
@@ -94,9 +97,14 @@ public class GamePanel extends JPanel implements Runnable {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
         Graphics2D g2d = (Graphics2D) g;
+
+
+        // DEBUG
+        long drawStartTime = 0;
+        if (keyHandler.checkDrawTime) {
+            drawStartTime = System.nanoTime();
+        }
 
         // draw tiles
         tileManager.draw(g2d);
@@ -110,5 +118,19 @@ public class GamePanel extends JPanel implements Runnable {
 
         // draw player
         player.draw(g2d);
+
+        // ui
+        ui.draw(g2d);
+
+
+        // DEBUG
+        if (keyHandler.checkDrawTime) {
+            long drawEndTime = System.nanoTime();
+            g2d.setFont(ui.messageFont);
+            g2d.setColor(Color.white);
+            g2d.drawString("渲染时间：" + (drawEndTime - drawStartTime) + " ns", tileSize / 2, 400);
+        }
+
+        g2d.dispose();
     }
 }

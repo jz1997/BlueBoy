@@ -124,6 +124,7 @@ public class Player extends Entity {
                 hasKey++;
                 gp.objects[objIndex] = null;
                 gp.seManager.playMusic(1, false);
+                gp.ui.showMessage("获得一把钥匙！");
                 break;
             case "Door":
                 if (hasKey > 0) {
@@ -131,18 +132,25 @@ public class Player extends Entity {
                     gp.objects[objIndex] = null;
                     hasKey--;
                     gp.seManager.playMusic(3, false);
+                    gp.ui.showMessage("门已被打开！");
                 } else {
                     LOG.info(() -> "Has no key to open the door");
+                    gp.ui.showMessage("缺少钥匙！");
                 }
                 break;
             case "Chest":
-                LOG.info(() -> "Touch object 'Chest'");
+                LOG.info(() -> "Find the chest");
+                gp.musicManager.stopMusic();
+                gp.seManager.playMusic(4, false);
+                gp.gameFinished = true;
+                gp.gameThread = null;
                 break;
             case "Boots":
                 LOG.info(() -> "Pick up a boots");
                 speed += 1;
                 gp.objects[objIndex] = null;
                 gp.seManager.playMusic(2, false);
+                gp.ui.showMessage("移速增加！");
                 break;
             default:
                 LOG.info(() -> "Touch unknown object");
@@ -185,7 +193,7 @@ public class Player extends Entity {
         g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
 
         // TODO: 记得删除
-        g2d.setColor(Color.green);
-        g2d.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        // g2d.setColor(Color.green);
+        // g2d.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 }

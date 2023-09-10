@@ -19,6 +19,8 @@ public class KeyHandler implements KeyListener {
     // 方向右键
     public boolean rightPressed;
 
+    public boolean checkDrawTime = false;
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -30,15 +32,21 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_W) {
             upPressed = true;
             // LOG.info(() -> "Key 'VK_W' pressed");
-        } else if (code == KeyEvent.VK_S) {
+        }
+        if (code == KeyEvent.VK_S) {
             downPressed = true;
             // LOG.info(() -> "Key 'VK_S' pressed");
-        } else if (code == KeyEvent.VK_A) {
+        }
+        if (code == KeyEvent.VK_A) {
             leftPressed = true;
             // LOG.info(() -> "Key 'VK_A' pressed");
-        } else if (code == KeyEvent.VK_D) {
+        }
+        if (code == KeyEvent.VK_D) {
             rightPressed = true;
             // LOG.info(() -> "Key 'VK_D' pressed");
+        }
+        if (code == KeyEvent.VK_T) {
+            checkDrawTime = !checkDrawTime;
         }
     }
 
@@ -48,13 +56,16 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_W) {
             upPressed = false;
             // LOG.info(() -> "Key 'VK_W' released");
-        } else if (code == KeyEvent.VK_S) {
+        }
+        if (code == KeyEvent.VK_S) {
             downPressed = false;
             // LOG.info(() -> "Key 'VK_S' released");
-        } else if (code == KeyEvent.VK_A) {
+        }
+        if (code == KeyEvent.VK_A) {
             leftPressed = false;
             // LOG.info(() -> "Key 'VK_A' released");
-        } else if (code == KeyEvent.VK_D) {
+        }
+        if (code == KeyEvent.VK_D) {
             rightPressed = false;
             // LOG.info(() -> "Key 'VK_D' released");
         }
