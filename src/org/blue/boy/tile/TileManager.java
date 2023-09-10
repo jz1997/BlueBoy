@@ -45,31 +45,28 @@ public class TileManager {
 
     public void loadTileImage() {
         // 草地
-        tiles[0] = new Tile();
-        tiles[0].image = gp.fileUtil.loadImage("/tiles/grass.png");
+        loadTile(0, "grass", false);
 
         // 墙壁
-        tiles[1] = new Tile();
-        tiles[1].image = gp.fileUtil.loadImage("/tiles/wall.png");
-        tiles[1].collision = true;
+        loadTile(1, "wall", true);
 
         // 水
-        tiles[2] = new Tile();
-        tiles[2].image = gp.fileUtil.loadImage("/tiles/water.png");
-        tiles[2].collision = true;
+        loadTile(2, "water", true);
 
         // 地球
-        tiles[3] = new Tile();
-        tiles[3].image = gp.fileUtil.loadImage("/tiles/earth.png");
+        loadTile(3, "earth", false);
 
         // 树
-        tiles[4] = new Tile();
-        tiles[4].image = gp.fileUtil.loadImage("/tiles/tree.png");
-        tiles[4].collision = true;
+        loadTile(4, "tree", true);
 
         // 沙漠
-        tiles[5] = new Tile();
-        tiles[5].image = gp.fileUtil.loadImage("/tiles/sand.png");
+        loadTile(5, "sand", false);
+    }
+
+    public void loadTile(int index, String tileName, boolean collision) {
+        tiles[index] = new Tile();
+        tiles[index].image = gp.fileUtil.loadImage("/tiles/" + tileName + ".png");
+        tiles[index].collision = collision;
     }
 
 
