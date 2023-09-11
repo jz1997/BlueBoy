@@ -8,7 +8,7 @@ public class OBJ_Key extends SuperObject {
 
     public OBJ_Key(GamePanel gp) {
         this.gp = gp;
-        image = gp.fileUtil.loadImage("/objects/key.png");
+        image = gp.fileUtil.loadImageAndScale("/objects/key.png", GamePanel.tileSize, GamePanel.tileSize);
         name = "Key";
     }
 }

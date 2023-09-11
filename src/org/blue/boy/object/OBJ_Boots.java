@@ -8,7 +8,7 @@ public class OBJ_Boots extends SuperObject {
 
     public OBJ_Boots(GamePanel gp) {
         this.gp = gp;
-        image = gp.fileUtil.loadImage("/objects/boots.png");
+        image = gp.fileUtil.loadImageAndScale("/objects/boots.png", GamePanel.tileSize, GamePanel.tileSize);
         name = "Boots";
     }
 }

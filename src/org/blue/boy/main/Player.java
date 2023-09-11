@@ -46,14 +46,14 @@ public class Player extends Entity {
     }
 
     public void loadImage() {
-        up1 = gp.fileUtil.loadImage("/player/boy_up_1.png");
-        up2 = gp.fileUtil.loadImage("/player/boy_up_2.png");
-        down1 = gp.fileUtil.loadImage("/player/boy_down_1.png");
-        down2 = gp.fileUtil.loadImage("/player/boy_down_2.png");
-        left1 = gp.fileUtil.loadImage("/player/boy_left_1.png");
-        left2 = gp.fileUtil.loadImage("/player/boy_left_2.png");
-        right1 = gp.fileUtil.loadImage("/player/boy_right_1.png");
-        right2 = gp.fileUtil.loadImage("/player/boy_right_2.png");
+        up1 = gp.fileUtil.loadImageAndScale("/player/boy_up_1.png", GamePanel.tileSize, GamePanel.tileSize);
+        up2 = gp.fileUtil.loadImageAndScale("/player/boy_up_2.png", GamePanel.tileSize, GamePanel.tileSize);
+        down1 = gp.fileUtil.loadImageAndScale("/player/boy_down_1.png", GamePanel.tileSize, GamePanel.tileSize);
+        down2 = gp.fileUtil.loadImageAndScale("/player/boy_down_2.png", GamePanel.tileSize, GamePanel.tileSize);
+        left1 = gp.fileUtil.loadImageAndScale("/player/boy_left_1.png", GamePanel.tileSize, GamePanel.tileSize);
+        left2 = gp.fileUtil.loadImageAndScale("/player/boy_left_2.png", GamePanel.tileSize, GamePanel.tileSize);
+        right1 = gp.fileUtil.loadImageAndScale("/player/boy_right_1.png", GamePanel.tileSize, GamePanel.tileSize);
+        right2 = gp.fileUtil.loadImageAndScale("/player/boy_right_2.png", GamePanel.tileSize, GamePanel.tileSize);
     }
 
     public void update() {
@@ -191,9 +191,5 @@ public class Player extends Entity {
         }
 
         g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
-
-        // TODO: 记得删除
-        // g2d.setColor(Color.green);
-        // g2d.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 }

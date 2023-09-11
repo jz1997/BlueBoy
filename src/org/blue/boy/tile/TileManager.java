@@ -47,7 +47,7 @@ public class TileManager {
         // 草地
         loadTile(0, "grass", false);
 
-        // 墙壁
+        // 墙壁/
         loadTile(1, "wall", true);
 
         // 水
@@ -67,6 +67,7 @@ public class TileManager {
         tiles[index] = new Tile();
         tiles[index].image = gp.fileUtil.loadImage("/tiles/" + tileName + ".png");
         tiles[index].collision = collision;
+        gp.fileUtil.scaleImage(tiles[index].image, GamePanel.tileSize, GamePanel.tileSize);
     }
 
 
@@ -80,10 +81,6 @@ public class TileManager {
                     int screenY = GamePanel.tileSize * row - gp.player.worldY + gp.player.screenY;
                     BufferedImage image = tiles[mapNum[row][col]].image;
                     g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
-
-                    // TODO: 测试用
-                    // g2d.setColor(Color.red);
-                    // g2d.drawRect(screenX, screenY, GamePanel.tileSize, GamePanel.tileSize);
                 }
             }
         }

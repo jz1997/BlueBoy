@@ -8,7 +8,7 @@ public class OBJ_Chest extends SuperObject {
 
     public OBJ_Chest(GamePanel gp) {
         this.gp = gp;
-        image = gp.fileUtil.loadImage("/objects/chest.png");
+        image = gp.fileUtil.loadImageAndScale("/objects/chest.png", GamePanel.tileSize, GamePanel.tileSize);
         name = "Chest";
     }
 }

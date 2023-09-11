@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -15,13 +16,21 @@ public class FileUtil {
 
     public BufferedImage loadImage(String relativeFilePath) {
         LOG.info(() -> String.format("Loading image '%s'", relativeFilePath));
-        InputStream inputStream = getClass().getResourceAsStream(relativeFilePath);
-        try {
+
+        try (InputStream inputStream = getClass().getResourceAsStream(relativeFilePath)) {
             return ImageIO.read(Objects.requireNonNull(inputStream));
         } catch (IOException e) {
             LOG.severe(() -> String.format("Loading image '%s' error '%s'.", relativeFilePath, e.getMessage()));
             throw new RuntimeException(e);
         }
+    }
+
+    public BufferedImage loadImageAndScale(String relativeFilePath, int scaledWidth, int scaledHeight) {
+        BufferedImage originalImage = loadImage(relativeFilePath);
+        if (originalImage == null) {
+            throw new RuntimeException("图片不存在");
+        }
+        return scaleImage(originalImage, scaledWidth, scaledHeight);
     }
 
     public InputStream loadFile(String relativeFilePath) {

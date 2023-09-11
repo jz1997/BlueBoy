@@ -8,7 +8,7 @@ public class OBJ_Door extends SuperObject {
 
     public OBJ_Door(GamePanel gp) {
         this.gp = gp;
-        image = gp.fileUtil.loadImage("/objects/door.png");
+        image = gp.fileUtil.loadImageAndScale("/objects/door.png", GamePanel.tileSize, GamePanel.tileSize);
         name = "Door";
         collision = true;
     }
