@@ -26,7 +26,7 @@ public class AssetSetter {
         // Door
         gp.objects[3] = new OBJ_Door(gp);
         gp.objects[3].worldX = 10 * GamePanel.tileSize;
-        gp.objects[3].worldY = 11 * GamePanel.tileSize;
+        gp.objects[3].worldY = 12 * GamePanel.tileSize;
 
 
         gp.objects[4] = new OBJ_Door(gp);
@@ -36,12 +36,12 @@ public class AssetSetter {
 
         gp.objects[5] = new OBJ_Door(gp);
         gp.objects[5].worldX = 12 * GamePanel.tileSize;
-        gp.objects[5].worldY = 22 * GamePanel.tileSize;
+        gp.objects[5].worldY = 23 * GamePanel.tileSize;
 
         // 宝箱
         gp.objects[6] = new OBJ_Chest(gp);
         gp.objects[6].worldX = 10 * GamePanel.tileSize;
-        gp.objects[6].worldY = 7 * GamePanel.tileSize;
+        gp.objects[6].worldY = 9 * GamePanel.tileSize;
 
         // 鞋子
         gp.objects[7] = new OBJ_Boots(gp);

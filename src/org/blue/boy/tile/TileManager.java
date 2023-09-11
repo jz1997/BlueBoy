@@ -11,14 +11,14 @@ import java.io.*;
  */
 public class TileManager {
     GamePanel gp;
-    public Tile[] tiles = new Tile[10];
+    public Tile[] tiles = new Tile[50];
 
     public int[][] mapNum = null;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
         loadTileImage();
-        loadMap("/maps/world01.txt");
+        loadMap("/maps/worldV2.txt");
     }
 
     public void loadMap(String filePath) {
@@ -44,23 +44,50 @@ public class TileManager {
     }
 
     public void loadTileImage() {
-        // 草地
-        loadTile(0, "grass", false);
+        // 占位符
+        loadTile(0, "grass00", false);
+        loadTile(1, "grass00", false);
+        loadTile(2, "grass00", false);
+        loadTile(3, "grass00", false);
+        loadTile(4, "grass00", false);
+        loadTile(5, "grass00", false);
+        loadTile(6, "grass00", false);
+        loadTile(7, "grass00", false);
+        loadTile(8, "grass00", false);
+        loadTile(9, "grass00", false);
 
-        // 墙壁/
-        loadTile(1, "wall", true);
-
-        // 水
-        loadTile(2, "water", true);
-
-        // 地球
-        loadTile(3, "earth", false);
-
-        // 树
-        loadTile(4, "tree", true);
-
-        // 沙漠
-        loadTile(5, "sand", false);
+        loadTile(10, "grass00", false);
+        loadTile(11, "grass01", false);
+        loadTile(12, "water00", true);
+        loadTile(13, "water01", true);
+        loadTile(14, "water02", true);
+        loadTile(15, "water03", true);
+        loadTile(16, "water04", true);
+        loadTile(17, "water05", true);
+        loadTile(18, "water06", true);
+        loadTile(19, "water07", true);
+        loadTile(20, "water08", true);
+        loadTile(21, "water09", true);
+        loadTile(22, "water10", true);
+        loadTile(23, "water11", true);
+        loadTile(24, "water12", true);
+        loadTile(25, "water13", true);
+        loadTile(26, "road00", false);
+        loadTile(27, "road01", false);
+        loadTile(28, "road02", false);
+        loadTile(29, "road03", false);
+        loadTile(30, "road04", false);
+        loadTile(31, "road05", false);
+        loadTile(32, "road06", false);
+        loadTile(33, "road07", false);
+        loadTile(34, "road08", false);
+        loadTile(35, "road09", false);
+        loadTile(36, "road10", false);
+        loadTile(37, "road11", false);
+        loadTile(38, "road12", false);
+        loadTile(39, "earth", false);
+        loadTile(40, "wall", true);
+        loadTile(41, "tree", true);
     }
 
     public void loadTile(int index, String tileName, boolean collision) {
