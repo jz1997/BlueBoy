@@ -1,15 +1,16 @@
 package org.blue.boy.main;
 
-import org.blue.boy.object.OBJ_Key;
+import org.blue.boy.utils.Graphics2DUtil;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 public class UI {
     GamePanel gp;
-    BufferedImage keyImage;
+    // BufferedImage keyImage;
     public Font tipFont = new Font("Arial", Font.PLAIN, 32);
+    public Font pauseFont = new Font("Arial", Font.PLAIN, 60);
     public Font messageFont = new Font("Arial", Font.PLAIN, 24);
     public Font congratulationFont = new Font("Arial", Font.BOLD, 60);
     public Font congratulationTipFont = new Font("Arial", Font.PLAIN, 34);
@@ -29,8 +30,8 @@ public class UI {
     public UI(GamePanel gp) {
         this.gp = gp;
 
-        OBJ_Key objKey = new OBJ_Key(gp);
-        keyImage = objKey.image;
+        // OBJ_Key objKey = new OBJ_Key(gp);
+        // keyImage = objKey.image;
     }
 
     /**
@@ -45,23 +46,46 @@ public class UI {
     }
 
     public void draw(Graphics2D g2d) {
-        if (gp.gameFinished) {
-            drawCongratulations(g2d);
-        } else {
-            g2d.setFont(tipFont);
-            g2d.setColor(Color.white);
-            g2d.drawImage(keyImage, halfTileSize, halfTileSize, GamePanel.tileSize, GamePanel.tileSize, null);
-            g2d.drawString(String.format(" x %d", gp.player.hasKey), halfTileSize + GamePanel.tileSize, halfTileSize + 40);
-
-            // 显示消息
-            if (messageOn) {
-                drawMessage(g2d);
-            }
+        switch (gp.gameState) {
+            case PLAY:
+                updatePlayTime();
+                break;
+            case PAUSED:
+                drawPaused(g2d);
+                break;
         }
 
+        // if (gp.gameFinished) {
+        //     drawCongratulations(g2d);
+        // } else {
+        //     g2d.setFont(tipFont);
+        //     g2d.setColor(Color.white);
+        //     g2d.drawImage(keyImage, halfTileSize, halfTileSize, GamePanel.tileSize, GamePanel.tileSize, null);
+        //     g2d.drawString(String.format(" x %d", gp.player.hasKey), halfTileSize + GamePanel.tileSize, halfTileSize + 40);
+        //
+        //     // 显示消息
+        //     if (messageOn) {
+        //         drawMessage(g2d);
+        //     }
+        // }
+
         // 绘制游戏时间
-        playTime += 1 / 60.0;
         drawPlayTime(g2d);
+    }
+
+    private void updatePlayTime() {
+        playTime += 1 / 60.0;
+    }
+
+    private void drawPaused(Graphics2D g) {
+        g.setFont(pauseFont);
+        g.setColor(Color.white);
+        String text = "PAUSED";
+
+        Rectangle2D stringBounds = Graphics2DUtil.getStringBounds(text, g);
+        Point centerPoint = Graphics2DUtil.getDrawCenterPoint(gp.screenWidth, gp.screenHeight, (int) stringBounds.getWidth(), 0);
+
+        g.drawString(text, centerPoint.x, centerPoint.y);
     }
 
     public void drawPlayTime(Graphics2D g2d) {

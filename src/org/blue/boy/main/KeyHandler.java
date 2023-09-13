@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 public class KeyHandler implements KeyListener {
     private final Logger LOG = Logger.getLogger("KeyHandler");
 
+    GamePanel gp;
+
     // 方向上键
     public boolean upPressed;
     // 方向下键
@@ -20,6 +22,10 @@ public class KeyHandler implements KeyListener {
     public boolean rightPressed;
 
     public boolean checkDrawTime = false;
+
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -47,6 +53,18 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_T) {
             checkDrawTime = !checkDrawTime;
+        }
+        if (code == KeyEvent.VK_P) {
+            switch (gp.gameState) {
+                case PLAY:
+                    LOG.info("Pause the game.");
+                    gp.gameState = GameState.PAUSED;
+                    break;
+                case PAUSED:
+                    LOG.info("Play the game.");
+                    gp.gameState = GameState.PLAY;
+                    break;
+            }
         }
     }
 

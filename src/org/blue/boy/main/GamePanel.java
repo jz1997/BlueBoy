@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     public boolean gameFinished = false;
 
     // 按键监听器
-    KeyHandler keyHandler = new KeyHandler();
+    KeyHandler keyHandler = new KeyHandler(this);
     Thread gameThread;
     // Collision Checker
     public CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -41,6 +41,8 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui = new UI(this);
     public SuperObject[] objects = new SuperObject[10];
     public Player player = new Player(this, keyHandler);
+
+    public GameState gameState = GameState.PLAY;
 
 
     public GamePanel() {
@@ -89,7 +91,9 @@ public class GamePanel extends JPanel implements Runnable {
      * 更新
      */
     public void update() {
-        player.update();
+        if (gameState == GameState.PLAY) {
+            player.update();
+        }
     }
 
     /**
