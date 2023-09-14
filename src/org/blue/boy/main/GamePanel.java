@@ -1,5 +1,7 @@
 package org.blue.boy.main;
 
+import org.blue.boy.entity.Entity;
+import org.blue.boy.entity.Player;
 import org.blue.boy.entity.SuperObject;
 import org.blue.boy.object.AssetSetter;
 import org.blue.boy.sound.SoundManager;
@@ -8,6 +10,8 @@ import org.blue.boy.utils.FileUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable {
     // 屏幕设置
@@ -30,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // 按键监听器
     KeyHandler keyHandler = new KeyHandler(this);
-    Thread gameThread;
+    public Thread gameThread;
     // Collision Checker
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
@@ -40,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
     public SoundManager seManager = new SoundManager(this);
     public UI ui = new UI(this);
     public SuperObject[] objects = new SuperObject[10];
+    public Entity[] npcs = new Entity[10];
     public Player player = new Player(this, keyHandler);
 
     public GameState gameState = GameState.PLAY;
@@ -55,6 +60,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     void setUpGame() {
         assetSetter.setObject();
+        assetSetter.setNPC();
 
         // 播放背景音乐
         musicManager.playMusic(0, true);
@@ -92,7 +98,13 @@ public class GamePanel extends JPanel implements Runnable {
      */
     public void update() {
         if (gameState == GameState.PLAY) {
+            // Player update
             player.update();
+
+            // NPC update
+            Arrays.stream(npcs).filter(Objects::nonNull).forEach(Entity::update);
+        } else if (gameState == GameState.PAUSED) {
+            // 游戏暂停需要进行的操作
         }
     }
 
@@ -117,6 +129,13 @@ public class GamePanel extends JPanel implements Runnable {
         for (SuperObject object : objects) {
             if (object != null) {
                 object.draw(g2d, this);
+            }
+        }
+
+        // 绘制 npc
+        for (Entity npc : npcs) {
+            if (npc != null) {
+                npc.draw(g2d);
             }
         }
 

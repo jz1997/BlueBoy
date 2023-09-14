@@ -1,5 +1,6 @@
 package org.blue.boy.object;
 
+import org.blue.boy.entity.NPC_OldMan;
 import org.blue.boy.main.GamePanel;
 
 public class AssetSetter {
@@ -47,5 +48,11 @@ public class AssetSetter {
         // gp.objects[7] = new OBJ_Boots(gp);
         // gp.objects[7].worldX = 37 * GamePanel.tileSize;
         // gp.objects[7].worldY = 42 * GamePanel.tileSize;
+    }
+
+    public void setNPC() {
+        gp.npcs[0] = new NPC_OldMan(gp);
+        gp.npcs[0].worldX = GamePanel.tileSize * 21;
+        gp.npcs[0].worldY = GamePanel.tileSize * 21;
     }
 }

@@ -1,7 +1,7 @@
-package org.blue.boy.main;
+package org.blue.boy.entity;
 
-import org.blue.boy.entity.Entity;
-import org.blue.boy.entity.SuperObject;
+import org.blue.boy.main.GamePanel;
+import org.blue.boy.main.KeyHandler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,14 +12,13 @@ import static org.blue.boy.main.Direction.*;
 public class Player extends Entity {
     private static final Logger LOG = Logger.getLogger("Player");
 
-    public GamePanel gp;
     public KeyHandler keyHandler;
     public final int screenX;
     public final int screenY;
     public int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
-        this.gp = gp;
+        super(gp);
         this.keyHandler = keyHandler;
 
         // 初始化英雄屏幕中心坐标
@@ -30,22 +29,15 @@ public class Player extends Entity {
         solidArea = new Rectangle(8, 14, 32, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-
-        // 设置部分默认值
-        setDefaultValue();
-
-        // 加载英雄动作图片
-        loadImage();
     }
 
-    public void setDefaultValue() {
+    @Override
+    public void setup() {
         worldX = GamePanel.tileSize * 23;
         worldY = GamePanel.tileSize * 21;
         speed = 4;
         direction = DOWN;
-    }
 
-    public void loadImage() {
         up1 = gp.fileUtil.loadImageAndScale("/player/boy_up_1.png", GamePanel.tileSize, GamePanel.tileSize);
         up2 = gp.fileUtil.loadImageAndScale("/player/boy_up_2.png", GamePanel.tileSize, GamePanel.tileSize);
         down1 = gp.fileUtil.loadImageAndScale("/player/boy_down_1.png", GamePanel.tileSize, GamePanel.tileSize);
@@ -54,52 +46,53 @@ public class Player extends Entity {
         left2 = gp.fileUtil.loadImageAndScale("/player/boy_left_2.png", GamePanel.tileSize, GamePanel.tileSize);
         right1 = gp.fileUtil.loadImageAndScale("/player/boy_right_1.png", GamePanel.tileSize, GamePanel.tileSize);
         right2 = gp.fileUtil.loadImageAndScale("/player/boy_right_2.png", GamePanel.tileSize, GamePanel.tileSize);
+
     }
 
+    @Override
     public void update() {
         if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
-            if (keyHandler.upPressed) {
-                direction = UP;
-            } else if (keyHandler.downPressed) {
-                direction = DOWN;
-            } else if (keyHandler.leftPressed) {
-                direction = LEFT;
-            } else if (keyHandler.rightPressed) {
-                direction = RIGHT;
-            }
+            // 更新方向
+            updateDirection();
 
-            // 检测 TILES 碰撞
-            collisionOn = false;
-            gp.collisionChecker.checkTile(this);
+            // 碰撞检测
+            checkCollision();
 
-            // 检测 Object 碰撞
-            int objIndex = gp.collisionChecker.checkObject(this, true);
-            handleObjectCollision(objIndex);
-
+            // 移动
             if (!collisionOn) {
-                if (keyHandler.upPressed) {
-                    worldY -= speed;
-                } else if (keyHandler.downPressed) {
-                    worldY += speed;
-                } else if (keyHandler.leftPressed) {
-                    worldX -= speed;
-                } else if (keyHandler.rightPressed) {
-                    worldX += speed;
-                }
+                move();
             }
 
             // 动画计数器
-            spriteCounter++;
-            if (spriteCounter > 12) {
-                if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum = 1;
-                }
-
-                spriteCounter = 0;
-            }
+            updateSprite();
         }
+    }
+
+    @Override
+    public void updateDirection() {
+        if (keyHandler.upPressed) {
+            direction = UP;
+        } else if (keyHandler.downPressed) {
+            direction = DOWN;
+        } else if (keyHandler.leftPressed) {
+            direction = LEFT;
+        } else if (keyHandler.rightPressed) {
+            direction = RIGHT;
+        }
+    }
+
+    /**
+     * 碰撞检测
+     */
+    @Override
+    public void checkCollision() {
+        // 检测 TILES 碰撞
+        collisionOn = false;
+        gp.collisionChecker.checkTile(this);
+
+        // 检测 Object 碰撞
+        int objIndex = gp.collisionChecker.checkObject(this, true);
+        handleObjectCollision(objIndex);
     }
 
     /**
@@ -157,39 +150,9 @@ public class Player extends Entity {
         }
     }
 
+    @Override
     public void draw(Graphics2D g2d) {
-        BufferedImage image = null;
-        switch (direction) {
-            case UP:
-                if (spriteNum == 1) {
-                    image = up1;
-                } else if (spriteNum == 2) {
-                    image = up2;
-                }
-                break;
-            case DOWN:
-                if (spriteNum == 1) {
-                    image = down1;
-                } else if (spriteNum == 2) {
-                    image = down2;
-                }
-                break;
-            case LEFT:
-                if (spriteNum == 1) {
-                    image = left1;
-                } else if (spriteNum == 2) {
-                    image = left2;
-                }
-                break;
-            case RIGHT:
-                if (spriteNum == 1) {
-                    image = right1;
-                } else if (spriteNum == 2) {
-                    image = right2;
-                }
-                break;
-        }
-
+        BufferedImage image = getSpriteImage();
         g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
     }
 }

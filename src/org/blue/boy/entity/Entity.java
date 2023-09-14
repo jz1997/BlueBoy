@@ -1,16 +1,19 @@
 package org.blue.boy.entity;
 
 import org.blue.boy.main.Direction;
+import org.blue.boy.main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
-public class Entity {
+public abstract class Entity {
+    public GamePanel gp;
     // 坐标信息
     public int worldX, worldY;
 
     // 碰撞矩形
-    public Rectangle solidArea;
+    public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
     public int solidAreaDefaultX;
     public int solidAreaDefaultY;
     public boolean collisionOn = false;
@@ -24,6 +27,137 @@ public class Entity {
 
     public int spriteCounter = 0;
     public int spriteNum = 1;
+
+    public Entity(GamePanel gp) {
+        this.gp = gp;
+
+        setup();
+    }
+
+    public void setup() {
+    }
+
+    public void updateDirection() {
+        Random random = new Random();
+        int val = random.nextInt(100) + 1;
+        if (val <= 25) {
+            direction = Direction.UP;
+        } else if (val <= 50) {
+            direction = Direction.DOWN;
+        } else if (val <= 75) {
+            direction = Direction.LEFT;
+        } else {
+            direction = Direction.RIGHT;
+        }
+    }
+
+    /**
+     * 属性更新
+     */
+    public void update() {
+        updateDirection();
+
+        checkCollision();
+
+        if (!collisionOn) {
+            move();
+        }
+
+        // 更新精灵动画
+        updateSprite();
+    }
+
+    /**
+     * 检测碰撞
+     */
+    public void checkCollision() {
+        collisionOn = false;
+        gp.collisionChecker.checkTile(this);
+    }
+
+    /**
+     * 移动
+     */
+    public void move() {
+        switch (direction) {
+            case UP:
+                worldY -= speed;
+                break;
+            case DOWN:
+                worldY += speed;
+                break;
+            case LEFT:
+                worldX -= speed;
+                break;
+            case RIGHT:
+                worldX += speed;
+                break;
+        }
+    }
+
+    /**
+     * 更新精灵动画计数器
+     */
+    public void updateSprite() {
+        spriteCounter++;
+        if (spriteCounter > 12) {
+            if (spriteNum == 1) {
+                spriteNum = 2;
+            } else if (spriteNum == 2) {
+                spriteNum = 1;
+            }
+
+            spriteCounter = 0;
+        }
+    }
+
+    /**
+     * 获取当前精灵动画图片
+     * @return /
+     */
+    public BufferedImage getSpriteImage() {
+        BufferedImage image = null;
+        switch (direction) {
+            case UP:
+                if (spriteNum == 1) {
+                    image = up1;
+                } else if (spriteNum == 2) {
+                    image = up2;
+                }
+                break;
+            case DOWN:
+                if (spriteNum == 1) {
+                    image = down1;
+                } else if (spriteNum == 2) {
+                    image = down2;
+                }
+                break;
+            case LEFT:
+                if (spriteNum == 1) {
+                    image = left1;
+                } else if (spriteNum == 2) {
+                    image = left2;
+                }
+                break;
+            case RIGHT:
+                if (spriteNum == 1) {
+                    image = right1;
+                } else if (spriteNum == 2) {
+                    image = right2;
+                }
+                break;
+        }
+        return image;
+    }
+
+    public void draw(Graphics2D g2d) {
+        if (gp.tileManager.isInRenderRectangle(worldX, worldY)) {
+            BufferedImage image = getSpriteImage();
+            int screenX = worldX - gp.player.worldX + gp.player.screenX;
+            int screenY = worldY - gp.player.worldY + gp.player.screenY;
+            g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
+        }
+    }
 
     public Rectangle getWorldRectangle() {
         return new Rectangle(worldX + solidArea.x, worldY + solidArea.y, solidArea.width, solidArea.height);

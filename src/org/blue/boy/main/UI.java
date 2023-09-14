@@ -49,6 +49,9 @@ public class UI {
         switch (gp.gameState) {
             case PLAY:
                 updatePlayTime();
+                if (messageOn) {
+                    drawMessage(g2d);
+                }
                 break;
             case PAUSED:
                 drawPaused(g2d);
@@ -96,6 +99,7 @@ public class UI {
     }
 
     private void drawMessage(Graphics2D g2d) {
+        g2d.setColor(Color.white);
         g2d.setFont(messageFont);
         g2d.drawString(message, halfTileSize, GamePanel.tileSize * 5);
         messageCounter++;

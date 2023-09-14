@@ -1,6 +1,7 @@
 package org.blue.boy.main;
 
 import org.blue.boy.entity.Entity;
+import org.blue.boy.entity.Player;
 import org.blue.boy.entity.SuperObject;
 
 import java.awt.*;
