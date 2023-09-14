@@ -2,6 +2,7 @@ package org.blue.boy.entity;
 
 import org.blue.boy.main.Direction;
 import org.blue.boy.main.GamePanel;
+import org.blue.boy.main.GameState;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -69,6 +70,28 @@ public abstract class AbstractNPC extends Entity {
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
             g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
+        }
+    }
+
+    @Override
+    public void speak() {
+        if (dialogues[dialogueIndex] == null) {
+            dialogueIndex = 0;
+            gp.gameState = GameState.PLAY;
+            return;
+        }
+        gp.ui.dialogueContent = dialogues[dialogueIndex];
+        dialogueIndex++;
+        updateDirectionToPlayer();
+    }
+
+    private void updateDirectionToPlayer() {
+        Direction playerDirection = gp.player.direction;
+        switch (playerDirection) {
+            case UP: direction = Direction.DOWN; break;
+            case DOWN: direction = Direction.UP; break;
+            case LEFT: direction = Direction.RIGHT; break;
+            case RIGHT: direction = Direction.LEFT; break;
         }
     }
 }

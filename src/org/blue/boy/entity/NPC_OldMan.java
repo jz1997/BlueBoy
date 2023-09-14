@@ -39,15 +39,4 @@ public class NPC_OldMan extends AbstractNPC {
 
         dialogueIndex = 0;
     }
-
-    @Override
-    public void speak() {
-        if (dialogues[dialogueIndex] == null) {
-            dialogueIndex = 0;
-            gp.gameState = GameState.PLAY;
-            return;
-        }
-        gp.ui.dialogueContent = dialogues[dialogueIndex];
-        dialogueIndex++;
-    }
 }
