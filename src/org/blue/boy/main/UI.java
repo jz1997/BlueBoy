@@ -7,10 +7,9 @@ import java.awt.geom.Rectangle2D;
 
 public class UI {
     GamePanel gp;
-    // BufferedImage keyImage;
-    public Font tipFont = new Font("Arial", Font.PLAIN, 32);
-    public Font pauseFont = new Font("Arial", Font.PLAIN, 60);
-    public Font messageFont = new Font("Arial", Font.PLAIN, 24);
+    Font maruMonica = null;
+    Font purisaBold = null;
+
     int halfTileSize = GamePanel.tileSize / 2;
 
     // 是否展示消息
@@ -25,8 +24,13 @@ public class UI {
     public UI(GamePanel gp) {
         this.gp = gp;
 
-        // OBJ_Key objKey = new OBJ_Key(gp);
-        // keyImage = objKey.image;
+        // 初始化字体
+        initFont();
+    }
+
+    public void initFont() {
+        maruMonica = gp.fileUtil.loadFont("/fonts/MaruMonica.ttf");
+        purisaBold = gp.fileUtil.loadFont("/fonts/PurisaBold.ttf");
     }
 
     /**
@@ -81,7 +85,7 @@ public class UI {
 
         x += GamePanel.tileSize;
         y += GamePanel.tileSize;
-        g.setFont(g.getFont().deriveFont(Font.PLAIN, 24));
+        g.setFont(maruMonica.deriveFont(Font.PLAIN, 28F));
 
         String[] dialogueParts = dialogueContent.split("");
         StringBuilder sb = new StringBuilder();
@@ -111,7 +115,7 @@ public class UI {
 
 
     private void drawPaused(Graphics2D g) {
-        g.setFont(pauseFont);
+        g.setFont(maruMonica.deriveFont(Font.PLAIN, 80F));
         g.setColor(Color.white);
         String text = "PAUSED";
 
@@ -123,7 +127,7 @@ public class UI {
 
     private void drawMessage(Graphics2D g2d) {
         g2d.setColor(Color.white);
-        g2d.setFont(messageFont);
+        g2d.setFont(maruMonica.deriveFont(Font.PLAIN, 40));
         g2d.drawString(message, halfTileSize, GamePanel.tileSize * 5);
         messageCounter++;
         if (messageCounter == 120) {

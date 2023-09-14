@@ -150,9 +150,9 @@ public class GamePanel extends JPanel implements Runnable {
         // DEBUG
         if (keyHandler.checkDrawTime) {
             long drawEndTime = System.nanoTime();
-            g2d.setFont(ui.messageFont);
+            g2d.setFont(ui.maruMonica.deriveFont(Font.PLAIN, 28F));
             g2d.setColor(Color.white);
-            g2d.drawString("渲染时间：" + (drawEndTime - drawStartTime) + " ns", tileSize / 2, 400);
+            g2d.drawString("RENDER INTERVAL：" + (drawEndTime - drawStartTime) + " ns", tileSize / 2, 400);
         }
 
         g2d.dispose();

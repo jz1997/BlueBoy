@@ -60,4 +60,12 @@ public class FileUtil {
         g.dispose();
         return scaledImage;
     }
+
+    public Font loadFont(String relativeFilePath) {
+        try (InputStream ins = getClass().getResourceAsStream(relativeFilePath)) {
+            return Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(ins));
+        } catch (IOException | FontFormatException e) {
+            throw new RuntimeException(String.format("Load font '%s' error, error message is '%s'", relativeFilePath, e.getMessage()));
+        }
+    }
 }
