@@ -4,7 +4,7 @@ import org.blue.boy.main.GamePanel;
 
 import static org.blue.boy.main.Direction.DOWN;
 
-public class NPC_OldMan extends Entity {
+public class NPC_OldMan extends AbstractNPC {
     public NPC_OldMan(GamePanel gp) {
         super(gp);
     }
@@ -22,9 +22,5 @@ public class NPC_OldMan extends Entity {
         left2 = gp.fileUtil.loadImageAndScale("/npc/oldman_left_2.png", GamePanel.tileSize, GamePanel.tileSize);
         right1 = gp.fileUtil.loadImageAndScale("/npc/oldman_right_1.png", GamePanel.tileSize, GamePanel.tileSize);
         right2 = gp.fileUtil.loadImageAndScale("/npc/oldman_right_2.png", GamePanel.tileSize, GamePanel.tileSize);
-    }
-
-    public void loadImage() {
-
     }
 }

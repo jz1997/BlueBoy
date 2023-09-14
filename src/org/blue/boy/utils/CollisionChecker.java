@@ -1,8 +1,10 @@
-package org.blue.boy.main;
+package org.blue.boy.utils;
 
 import org.blue.boy.entity.Entity;
 import org.blue.boy.entity.Player;
 import org.blue.boy.entity.SuperObject;
+import org.blue.boy.main.Direction;
+import org.blue.boy.main.GamePanel;
 
 import java.awt.*;
 
@@ -83,10 +85,40 @@ public class CollisionChecker {
                     if (obj.collision) {
                         entity.collisionOn = true;
                     }
+                } else {
+                    if (obj.collision) {
+                        entity.collisionOn = true;
+                    }
                 }
                 return i;
             }
         }
         return -1;
+    }
+
+    public int checkEntity(Entity entity, Entity[] targets) {
+        Rectangle entityWorldRectangle = entity.getWorldNextStepRectangle();
+        for (int i = 0; i < targets.length; i++) {
+            Entity targetEntity = targets[i];
+            if (targetEntity == null) {
+                continue;
+            }
+
+            Rectangle targetWorldRectangle = targetEntity.getWorldRectangle();
+            // 碰撞
+            if (entityWorldRectangle.intersects(targetWorldRectangle)) {
+                entity.collisionOn = true;
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void checkPlayer(Entity entity) {
+        Rectangle entityRectangle = entity.getWorldNextStepRectangle();
+        Rectangle playerWorldRectangle = gp.player.getWorldRectangle();
+        if (entityRectangle.intersects(playerWorldRectangle)) {
+            entity.collisionOn = true;
+        }
     }
 }

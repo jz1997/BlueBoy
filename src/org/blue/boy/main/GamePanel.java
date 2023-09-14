@@ -6,6 +6,7 @@ import org.blue.boy.entity.SuperObject;
 import org.blue.boy.object.AssetSetter;
 import org.blue.boy.sound.SoundManager;
 import org.blue.boy.tile.TileManager;
+import org.blue.boy.utils.CollisionChecker;
 import org.blue.boy.utils.FileUtil;
 
 import javax.swing.*;

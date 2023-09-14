@@ -37,43 +37,19 @@ public abstract class Entity {
     public void setup() {
     }
 
-    public void updateDirection() {
-        Random random = new Random();
-        int val = random.nextInt(100) + 1;
-        if (val <= 25) {
-            direction = Direction.UP;
-        } else if (val <= 50) {
-            direction = Direction.DOWN;
-        } else if (val <= 75) {
-            direction = Direction.LEFT;
-        } else {
-            direction = Direction.RIGHT;
-        }
-    }
-
     /**
      * 属性更新
      */
-    public void update() {
-        updateDirection();
+    public abstract void update();
 
-        checkCollision();
-
-        if (!collisionOn) {
-            move();
-        }
-
-        // 更新精灵动画
-        updateSprite();
-    }
+    public abstract void updateDirection();
 
     /**
      * 检测碰撞
      */
-    public void checkCollision() {
-        collisionOn = false;
-        gp.collisionChecker.checkTile(this);
-    }
+    public abstract void checkCollision();
+
+    public abstract void draw(Graphics2D g2d);
 
     /**
      * 移动
@@ -148,15 +124,6 @@ public abstract class Entity {
                 break;
         }
         return image;
-    }
-
-    public void draw(Graphics2D g2d) {
-        if (gp.tileManager.isInRenderRectangle(worldX, worldY)) {
-            BufferedImage image = getSpriteImage();
-            int screenX = worldX - gp.player.worldX + gp.player.screenX;
-            int screenY = worldY - gp.player.worldY + gp.player.screenY;
-            g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
-        }
     }
 
     public Rectangle getWorldRectangle() {

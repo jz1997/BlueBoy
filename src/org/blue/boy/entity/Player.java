@@ -92,7 +92,11 @@ public class Player extends Entity {
 
         // 检测 Object 碰撞
         int objIndex = gp.collisionChecker.checkObject(this, true);
-        handleObjectCollision(objIndex);
+        pickUpObject(objIndex);
+
+        // 检测 NPC 碰撞
+        int npcIndex = gp.collisionChecker.checkEntity(this, gp.npcs);
+        interactNPC(npcIndex);
     }
 
     /**
@@ -100,7 +104,7 @@ public class Player extends Entity {
      *
      * @param objIndex /
      */
-    private void handleObjectCollision(int objIndex) {
+    private void pickUpObject(int objIndex) {
         if (objIndex == -1) {
             return;
         }
@@ -148,6 +152,18 @@ public class Player extends Entity {
             default:
                 LOG.info(() -> "Touch unknown object");
         }
+    }
+
+    /**
+     * 和 npc 交互
+     * @param index npc 在 npc 数组中的索引
+     */
+    private void interactNPC(int index) {
+        if (index == -1) {
+            return;
+        }
+
+        // TODO 增加NPC交互
     }
 
     @Override
