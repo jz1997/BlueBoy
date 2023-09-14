@@ -20,6 +20,7 @@ public class KeyHandler implements KeyListener {
     public boolean leftPressed;
     // 方向右键
     public boolean rightPressed;
+    public boolean enterPressed;
 
     public boolean checkDrawTime = false;
 
@@ -35,57 +36,84 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+        if (gp.gameState == GameState.PLAY) {
+            handlePlayKeyPressed(code);
+        } else if (gp.gameState == GameState.PAUSED) {
+            handlePausedKeyPressed(code);
+        } else if (gp.gameState == GameState.DIALOGUE) {
+            handleDialogueKeyPressed(code);
+        }
+    }
+
+    private void handlePlayKeyPressed(int code) {
         if (code == KeyEvent.VK_W) {
             upPressed = true;
-            // LOG.info(() -> "Key 'VK_W' pressed");
         }
         if (code == KeyEvent.VK_S) {
             downPressed = true;
-            // LOG.info(() -> "Key 'VK_S' pressed");
         }
         if (code == KeyEvent.VK_A) {
             leftPressed = true;
-            // LOG.info(() -> "Key 'VK_A' pressed");
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = true;
-            // LOG.info(() -> "Key 'VK_D' pressed");
         }
         if (code == KeyEvent.VK_T) {
             checkDrawTime = !checkDrawTime;
         }
         if (code == KeyEvent.VK_P) {
-            switch (gp.gameState) {
-                case PLAY:
-                    LOG.info("Pause the game.");
-                    gp.gameState = GameState.PAUSED;
-                    break;
-                case PAUSED:
-                    LOG.info("Play the game.");
-                    gp.gameState = GameState.PLAY;
-                    break;
+            gp.gameState = GameState.PAUSED;
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            if (gp.player.currentInteractNPC != null) {
+                gp.gameState = GameState.DIALOGUE;
+                gp.player.currentInteractNPC.speak();
             }
         }
     }
 
+    private void handlePausedKeyPressed(int code) {
+        if (code == KeyEvent.VK_P) {
+            gp.gameState = GameState.PLAY;
+        }
+    }
+
+    private void handleDialogueKeyPressed(int code) {
+        if (code == KeyEvent.VK_ENTER) {
+            if (gp.player.currentInteractNPC != null) {
+                gp.player.currentInteractNPC.speak();
+            }
+        }
+    }
+
+    public void resetMoveKeyPressed() {
+        upPressed = false;
+        downPressed = false;
+        leftPressed = false;
+        rightPressed = false;
+    }
+
+
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
+        if (gp.gameState == GameState.PLAY) {
+            handlePlayKeyReleased(code);
+        }
+    }
+
+    private void handlePlayKeyReleased(int code) {
         if (code == KeyEvent.VK_W) {
             upPressed = false;
-            // LOG.info(() -> "Key 'VK_W' released");
         }
         if (code == KeyEvent.VK_S) {
             downPressed = false;
-            // LOG.info(() -> "Key 'VK_S' released");
         }
         if (code == KeyEvent.VK_A) {
             leftPressed = false;
-            // LOG.info(() -> "Key 'VK_A' released");
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
-            // LOG.info(() -> "Key 'VK_D' released");
         }
     }
 }

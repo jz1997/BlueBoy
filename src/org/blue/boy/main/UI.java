@@ -4,7 +4,6 @@ import org.blue.boy.utils.Graphics2DUtil;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 public class UI {
     GamePanel gp;
@@ -12,8 +11,6 @@ public class UI {
     public Font tipFont = new Font("Arial", Font.PLAIN, 32);
     public Font pauseFont = new Font("Arial", Font.PLAIN, 60);
     public Font messageFont = new Font("Arial", Font.PLAIN, 24);
-    public Font congratulationFont = new Font("Arial", Font.BOLD, 60);
-    public Font congratulationTipFont = new Font("Arial", Font.PLAIN, 34);
     int halfTileSize = GamePanel.tileSize / 2;
 
     // 是否展示消息
@@ -23,9 +20,7 @@ public class UI {
     // 消息计数器
     public int messageCounter = 0;
 
-    // 游戏使用时间
-    public double playTime = 0.0d;
-    public DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    public String dialogueContent = "";
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -48,13 +43,15 @@ public class UI {
     public void draw(Graphics2D g2d) {
         switch (gp.gameState) {
             case PLAY:
-                updatePlayTime();
                 if (messageOn) {
                     drawMessage(g2d);
                 }
                 break;
             case PAUSED:
                 drawPaused(g2d);
+                break;
+            case DIALOGUE:
+                drawDialogueScreen(g2d);
                 break;
         }
 
@@ -72,13 +69,46 @@ public class UI {
         //     }
         // }
 
-        // 绘制游戏时间
-        drawPlayTime(g2d);
     }
 
-    private void updatePlayTime() {
-        playTime += 1 / 60.0;
+    private void drawDialogueScreen(Graphics2D g) {
+        int x = GamePanel.tileSize * 2;
+        int y = GamePanel.tileSize / 2;
+        int width = gp.screenWidth - GamePanel.tileSize * 4;
+        int height = GamePanel.tileSize * 4;
+
+        drawSubWindow(g, x, y, width, height);
+
+        x += GamePanel.tileSize;
+        y += GamePanel.tileSize;
+        g.setFont(g.getFont().deriveFont(Font.PLAIN, 24));
+
+        String[] dialogueParts = dialogueContent.split("");
+        StringBuilder sb = new StringBuilder();
+        for (String dialoguePart : dialogueParts) {
+            if (Graphics2DUtil.getStringBounds(sb + dialoguePart, g).getWidth() <= width - 2 * GamePanel.tileSize) {
+                sb.append(dialoguePart);
+            } else {
+                g.drawString(sb.toString(), x, y);
+                y += 40;
+                sb = new StringBuilder(dialoguePart);
+            }
+        }
+        g.drawString(sb.toString(), x, y);
+
     }
+
+    private void drawSubWindow(Graphics2D g, int x, int y, int width, int height) {
+        Color color = new Color(0, 0, 0, 210);
+        g.setColor(color);
+        g.fillRoundRect(x, y, width, height, 35, 35);
+
+        color = new Color(255, 255, 255);
+        g.setColor(color);
+        g.setStroke(new BasicStroke(5));
+        g.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+    }
+
 
     private void drawPaused(Graphics2D g) {
         g.setFont(pauseFont);
@@ -91,13 +121,6 @@ public class UI {
         g.drawString(text, centerPoint.x, centerPoint.y);
     }
 
-    public void drawPlayTime(Graphics2D g2d) {
-        g2d.setFont(tipFont);
-        g2d.setColor(Color.white);
-        String formattedPlayTime = decimalFormat.format(playTime);
-        g2d.drawString("Time: " + formattedPlayTime, GamePanel.tileSize * 11, halfTileSize + 40);
-    }
-
     private void drawMessage(Graphics2D g2d) {
         g2d.setColor(Color.white);
         g2d.setFont(messageFont);
@@ -107,22 +130,5 @@ public class UI {
             messageOn = false;
             messageCounter = 0;
         }
-    }
-
-    private void drawCongratulations(Graphics2D g2d) {
-        String text = "找到宝物, 顺利通关！";
-        g2d.setFont(congratulationFont);
-        g2d.setColor(Color.yellow);
-        double textWidth = g2d.getFontMetrics().getStringBounds(text, g2d).getWidth();
-        double textHeight = g2d.getFontMetrics().getStringBounds(text, g2d).getHeight();
-
-        g2d.drawString(text, (float) (gp.screenWidth - textWidth) / 2, (float) (gp.screenHeight - textHeight) / 2);
-
-        g2d.setFont(congratulationTipFont);
-        g2d.setColor(Color.white);
-        text = "使用时间：" + decimalFormat.format(playTime) + " 秒";
-        textWidth = g2d.getFontMetrics().getStringBounds(text, g2d).getWidth();
-        textHeight = g2d.getFontMetrics().getStringBounds(text, g2d).getHeight();
-        g2d.drawString(text, (float) (gp.screenWidth - textWidth) / 2, (float) (gp.screenHeight - textHeight) / 2 + GamePanel.tileSize * 2);
     }
 }

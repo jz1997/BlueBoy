@@ -1,6 +1,7 @@
 package org.blue.boy.entity;
 
 import org.blue.boy.main.GamePanel;
+import org.blue.boy.main.GameState;
 
 import static org.blue.boy.main.Direction.DOWN;
 
@@ -14,6 +15,12 @@ public class NPC_OldMan extends AbstractNPC {
         speed = 1;
         direction = DOWN;
 
+        initImages();
+
+        initDialogues();
+    }
+
+    private void initImages() {
         up1 = gp.fileUtil.loadImageAndScale("/npc/oldman_up_1.png", GamePanel.tileSize, GamePanel.tileSize);
         up2 = gp.fileUtil.loadImageAndScale("/npc/oldman_up_2.png", GamePanel.tileSize, GamePanel.tileSize);
         down1 = gp.fileUtil.loadImageAndScale("/npc/oldman_down_1.png", GamePanel.tileSize, GamePanel.tileSize);
@@ -22,5 +29,25 @@ public class NPC_OldMan extends AbstractNPC {
         left2 = gp.fileUtil.loadImageAndScale("/npc/oldman_left_2.png", GamePanel.tileSize, GamePanel.tileSize);
         right1 = gp.fileUtil.loadImageAndScale("/npc/oldman_right_1.png", GamePanel.tileSize, GamePanel.tileSize);
         right2 = gp.fileUtil.loadImageAndScale("/npc/oldman_right_2.png", GamePanel.tileSize, GamePanel.tileSize);
+    }
+
+    private void initDialogues() {
+        dialogues[0] = "Hello lad.";
+        dialogues[1] = "So you've come to this island to find the treasure.";
+        dialogues[2] = "I used to be a great wizard but now... I'm a bit too old for taking adventure.";
+        dialogues[3] = "Well, good luck on you.";
+
+        dialogueIndex = 0;
+    }
+
+    @Override
+    public void speak() {
+        if (dialogues[dialogueIndex] == null) {
+            dialogueIndex = 0;
+            gp.gameState = GameState.PLAY;
+            return;
+        }
+        gp.ui.dialogueContent = dialogues[dialogueIndex];
+        dialogueIndex++;
     }
 }

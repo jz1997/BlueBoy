@@ -5,7 +5,6 @@ import org.blue.boy.main.GamePanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 public abstract class Entity {
     public GamePanel gp;
@@ -27,6 +26,9 @@ public abstract class Entity {
 
     public int spriteCounter = 0;
     public int spriteNum = 1;
+
+    public String[] dialogues = new String[20];
+    public int dialogueIndex = 0;
 
     public Entity(GamePanel gp) {
         this.gp = gp;
@@ -50,6 +52,8 @@ public abstract class Entity {
     public abstract void checkCollision();
 
     public abstract void draw(Graphics2D g2d);
+
+    public abstract void speak();
 
     /**
      * 移动

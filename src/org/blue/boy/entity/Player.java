@@ -1,6 +1,7 @@
 package org.blue.boy.entity;
 
 import org.blue.boy.main.GamePanel;
+import org.blue.boy.main.GameState;
 import org.blue.boy.main.KeyHandler;
 
 import java.awt.*;
@@ -16,6 +17,7 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
     public int hasKey = 0;
+    public Entity currentInteractNPC = null;
 
     public Player(GamePanel gp, KeyHandler keyHandler) {
         super(gp);
@@ -160,15 +162,23 @@ public class Player extends Entity {
      */
     private void interactNPC(int index) {
         if (index == -1) {
+            currentInteractNPC = null;
             return;
         }
-
-        // TODO 增加NPC交互
+        // gp.gameState = GameState.DIALOGUE;
+        keyHandler.resetMoveKeyPressed();
+        currentInteractNPC = gp.npcs[index];
+        // gp.npcs[index].speak();
     }
 
     @Override
     public void draw(Graphics2D g2d) {
         BufferedImage image = getSpriteImage();
         g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
+    }
+
+    @Override
+    public void speak() {
+
     }
 }
