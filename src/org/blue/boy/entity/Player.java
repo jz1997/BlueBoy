@@ -116,44 +116,7 @@ public class Player extends Entity {
             return;
         }
 
-        // 接触的特殊物品
-        switch (object.name) {
-            case "Key":
-                LOG.info(() -> "Pick up a key");
-                hasKey++;
-                gp.objects[objIndex] = null;
-                gp.seManager.playMusic(1, false);
-                gp.ui.showMessage("获得一把钥匙！");
-                break;
-            case "Door":
-                if (hasKey > 0) {
-                    LOG.info(() -> "Open the door");
-                    gp.objects[objIndex] = null;
-                    hasKey--;
-                    gp.seManager.playMusic(3, false);
-                    gp.ui.showMessage("门已被打开！");
-                } else {
-                    LOG.info(() -> "Has no key to open the door");
-                    gp.ui.showMessage("缺少钥匙！");
-                }
-                break;
-            case "Chest":
-                LOG.info(() -> "Find the chest");
-                gp.musicManager.stopMusic();
-                gp.seManager.playMusic(4, false);
-                gp.gameFinished = true;
-                gp.gameThread = null;
-                break;
-            case "Boots":
-                LOG.info(() -> "Pick up a boots");
-                speed += 1;
-                gp.objects[objIndex] = null;
-                gp.seManager.playMusic(2, false);
-                gp.ui.showMessage("移速增加！");
-                break;
-            default:
-                LOG.info(() -> "Touch unknown object");
-        }
+        // TODO: 处理特殊物品
     }
 
     /**

@@ -26,16 +26,18 @@ public class GamePanel extends JPanel implements Runnable {
 
     // 帧率
     final int FPS = 60;
+
     // World Setting
     public final int maxWorldRow = 50;
     public final int maxWorldCol = 50;
     public final int worldWidth = maxWorldCol * tileSize;
     public final int worldHeight = maxWorldRow * tileSize;
-    public boolean gameFinished = false;
+
+    // 游戏线程
+    public Thread gameThread;
 
     // 按键监听器
     KeyHandler keyHandler = new KeyHandler(this);
-    public Thread gameThread;
     // Collision Checker
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
@@ -48,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Entity[] npcs = new Entity[10];
     public Player player = new Player(this, keyHandler);
 
+    // 游戏状态
     public GameState gameState = GameState.PLAY;
 
 
@@ -81,7 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         double lastDrawTime = System.nanoTime();
         double currentTime;
-        while (!gameFinished) {
+        while (true) {
             currentTime = System.nanoTime();
             // 是否到了一个绘制周期
             delta += (currentTime - lastDrawTime) / drawInterval;
