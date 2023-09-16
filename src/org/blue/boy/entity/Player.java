@@ -1,8 +1,7 @@
 package org.blue.boy.entity;
 
 import org.blue.boy.main.GamePanel;
-import org.blue.boy.main.GameState;
-import org.blue.boy.main.KeyHandler;
+import org.blue.boy.main.KeyListener;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,15 +12,15 @@ import static org.blue.boy.main.Direction.*;
 public class Player extends Entity {
     private static final Logger LOG = Logger.getLogger("Player");
 
-    public KeyHandler keyHandler;
+    public KeyListener keyListener;
     public final int screenX;
     public final int screenY;
     public int hasKey = 0;
     public Entity currentInteractNPC = null;
 
-    public Player(GamePanel gp, KeyHandler keyHandler) {
+    public Player(GamePanel gp, KeyListener keyListener) {
         super(gp);
-        this.keyHandler = keyHandler;
+        this.keyListener = keyListener;
 
         // 初始化英雄屏幕中心坐标
         screenX = gp.screenWidth / 2 - GamePanel.tileSize / 2;
@@ -53,7 +52,7 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        if (keyHandler.upPressed || keyHandler.downPressed || keyHandler.leftPressed || keyHandler.rightPressed) {
+        if (keyListener.upPressed || keyListener.downPressed || keyListener.leftPressed || keyListener.rightPressed) {
             // 更新方向
             updateDirection();
 
@@ -72,13 +71,13 @@ public class Player extends Entity {
 
     @Override
     public void updateDirection() {
-        if (keyHandler.upPressed) {
+        if (keyListener.upPressed) {
             direction = UP;
-        } else if (keyHandler.downPressed) {
+        } else if (keyListener.downPressed) {
             direction = DOWN;
-        } else if (keyHandler.leftPressed) {
+        } else if (keyListener.leftPressed) {
             direction = LEFT;
-        } else if (keyHandler.rightPressed) {
+        } else if (keyListener.rightPressed) {
             direction = RIGHT;
         }
     }
@@ -129,7 +128,7 @@ public class Player extends Entity {
             return;
         }
         // gp.gameState = GameState.DIALOGUE;
-        keyHandler.resetMoveKeyPressed();
+        keyListener.resetKeyFlagState();
         currentInteractNPC = gp.npcs[index];
         // gp.npcs[index].speak();
     }

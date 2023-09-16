@@ -3,6 +3,7 @@ package org.blue.boy.main;
 import org.blue.boy.entity.Entity;
 import org.blue.boy.entity.Player;
 import org.blue.boy.entity.SuperObject;
+import org.blue.boy.key.KeyHandlerExecutor;
 import org.blue.boy.object.AssetSetter;
 import org.blue.boy.sound.SoundManager;
 import org.blue.boy.tile.TileManager;
@@ -25,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow; // 576px
 
     // 帧率
-    final int FPS = 60;
+    public final int FPS = 60;
 
     // World Setting
     public final int maxWorldRow = 50;
@@ -37,7 +38,8 @@ public class GamePanel extends JPanel implements Runnable {
     public Thread gameThread;
 
     // 按键监听器
-    KeyHandler keyHandler = new KeyHandler(this);
+    KeyHandlerExecutor keyHandlerExecutor = new KeyHandlerExecutor(this);
+    KeyListener keyListener = new KeyListener(this);
     // Collision Checker
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
@@ -48,26 +50,29 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui = new UI(this);
     public SuperObject[] objects = new SuperObject[10];
     public Entity[] npcs = new Entity[10];
-    public Player player = new Player(this, keyHandler);
+    public Player player = new Player(this, keyListener);
 
     // 游戏状态
-    public GameState gameState = GameState.PLAY;
+    public GameState gameState = GameState.TITLE;
 
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
-        this.addKeyListener(keyHandler);
+        this.addKeyListener(keyListener);
         this.setFocusable(true);
     }
 
+    /**
+     * 初始化项目
+     */
     void setUpGame() {
         assetSetter.setObject();
         assetSetter.setNPC();
 
-        // 播放背景音乐
-        musicManager.playMusic(0, true);
+        // TODO 播放背景音乐
+        // musicManager.playMusic(0, true);
     }
 
     /**
@@ -122,36 +127,40 @@ public class GamePanel extends JPanel implements Runnable {
 
         // DEBUG
         long drawStartTime = 0;
-        if (keyHandler.checkDrawTime) {
+        if (keyListener.checkDrawTime) {
             drawStartTime = System.nanoTime();
         }
 
-        // draw tiles
-        tileManager.draw(g2d);
+        // DRAW
+        if (gameState == GameState.TITLE) {
+            ui.draw(g2d);
+        } else {
+            // draw tiles
+            tileManager.draw(g2d);
 
-        // draw objects, such as key, door ...
-        for (SuperObject object : objects) {
-            if (object != null) {
-                object.draw(g2d, this);
+            // draw objects, such as key, door ...
+            for (SuperObject object : objects) {
+                if (object != null) {
+                    object.draw(g2d, this);
+                }
             }
-        }
 
-        // 绘制 npc
-        for (Entity npc : npcs) {
-            if (npc != null) {
-                npc.draw(g2d);
+            // 绘制 npc
+            for (Entity npc : npcs) {
+                if (npc != null) {
+                    npc.draw(g2d);
+                }
             }
+
+            // draw player
+            player.draw(g2d);
+
+            // ui
+            ui.draw(g2d);
         }
-
-        // draw player
-        player.draw(g2d);
-
-        // ui
-        ui.draw(g2d);
-
 
         // DEBUG
-        if (keyHandler.checkDrawTime) {
+        if (keyListener.checkDrawTime) {
             long drawEndTime = System.nanoTime();
             g2d.setFont(ui.maruMonica.deriveFont(Font.PLAIN, 28F));
             g2d.setColor(Color.white);
