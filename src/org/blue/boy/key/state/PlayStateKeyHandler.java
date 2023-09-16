@@ -21,19 +21,19 @@ public class PlayStateKeyHandler extends AbstractKeyHandler {
         int code = e.getKeyCode();
 
         if (code == KeyEvent.VK_W) {
-            upPressed = true;
+            gp.keyListener.upPressed = true;
         }
         if (code == KeyEvent.VK_S) {
-            downPressed = true;
+            gp.keyListener.downPressed = true;
         }
         if (code == KeyEvent.VK_A) {
-            leftPressed = true;
+            gp.keyListener.leftPressed = true;
         }
         if (code == KeyEvent.VK_D) {
-            rightPressed = true;
+            gp.keyListener.rightPressed = true;
         }
         if (code == KeyEvent.VK_T) {
-            checkDrawTime = !checkDrawTime;
+            gp.keyListener.checkDrawTime = !gp.keyListener.checkDrawTime;
         }
         if (code == KeyEvent.VK_P) {
             gp.gameState = GameState.PAUSED;
@@ -50,16 +50,16 @@ public class PlayStateKeyHandler extends AbstractKeyHandler {
     public void handleReleased(KeyEvent e) {
         int code = e.getKeyCode();
         if (code == KeyEvent.VK_W) {
-            upPressed = false;
+            gp.keyListener.upPressed = false;
         }
         if (code == KeyEvent.VK_S) {
-            downPressed = false;
+            gp.keyListener.downPressed = false;
         }
         if (code == KeyEvent.VK_A) {
-            leftPressed = false;
+            gp.keyListener.leftPressed = false;
         }
         if (code == KeyEvent.VK_D) {
-            rightPressed = false;
+            gp.keyListener.rightPressed = false;
         }
     }
 }

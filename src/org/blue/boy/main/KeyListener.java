@@ -45,7 +45,10 @@ public class KeyListener implements java.awt.event.KeyListener {
     }
 
     public void resetKeyFlagState() {
-        gp.keyHandlerExecutor.execute(null, KeyEventType.RESET);
-
+        leftPressed = false;
+        rightPressed = false;
+        upPressed = false;
+        downPressed = false;
+        enterPressed = false;
     }
 }

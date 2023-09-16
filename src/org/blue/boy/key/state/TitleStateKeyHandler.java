@@ -20,6 +20,7 @@ public class TitleStateKeyHandler extends AbstractKeyHandler {
         switch (code) {
             case KeyEvent.VK_W: gp.ui.prevCommand(); break;
             case KeyEvent.VK_S: gp.ui.nextCommand(); break;
+            case KeyEvent.VK_ENTER: gp.ui.executeCommand(); break;
         }
     }
 

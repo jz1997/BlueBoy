@@ -38,8 +38,8 @@ public class GamePanel extends JPanel implements Runnable {
     public Thread gameThread;
 
     // 按键监听器
-    KeyHandlerExecutor keyHandlerExecutor = new KeyHandlerExecutor(this);
-    KeyListener keyListener = new KeyListener(this);
+    public KeyHandlerExecutor keyHandlerExecutor = new KeyHandlerExecutor(this);
+    public KeyListener keyListener = new KeyListener(this);
     // Collision Checker
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
@@ -168,5 +168,10 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         g2d.dispose();
+    }
+
+    public void startGame() {
+        gameState = GameState.PLAY;
+        musicManager.playBackgroundMusic();
     }
 }

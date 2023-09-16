@@ -51,6 +51,10 @@ public class SoundManager {
         clip.stop();
     }
 
+    public void playBackgroundMusic() {
+        playMusic(0, true);
+    }
+
     public void playMusic(int i, boolean loop) {
         setFile(i);
         play();

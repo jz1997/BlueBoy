@@ -24,6 +24,10 @@ public class UI {
     public int commandNum = 0;
     public int maxCommandNum = 3;
 
+    public TitleSubState tileSubState = TitleSubState.WELCOME_COMMAND_SELECTOR;
+    public int roleSelectorCommandNum = 0;
+    public int maxRoleSelectorCommand = 4;
+
     public UI(GamePanel gp) {
         this.gp = gp;
 
@@ -81,7 +85,70 @@ public class UI {
     }
 
     private void drawTitleScreen(Graphics2D g) {
+        switch (tileSubState) {
+            case WELCOME_COMMAND_SELECTOR: // 绘制欢迎命令选择页
+                drawWelcomeCommandSelector(g);
+                break;
+            case ROLE_SELECTOR: // 玩家角色选择
+                drawPlayerRoleSelector(g);
+                break;
+        }
+    }
 
+    private void drawPlayerRoleSelector(Graphics2D g) {
+        g.setFont(maruMonica.deriveFont(Font.PLAIN, 40F));
+        g.setColor(Color.white);
+
+        // Selector your role
+        String text = "Selector your role:";
+        int x = Graphics2DUtil.getDrawStringCenterX(text, gp.screenWidth, gp.screenHeight, g);
+        int y = 2 * GamePanel.tileSize;
+        g.drawString(text, x, y);
+
+
+        // Fighter
+        text = "Fighter";
+        x = Graphics2DUtil.getDrawStringCenterX(text, gp.screenWidth, gp.screenHeight, g);
+        y += 3 * GamePanel.tileSize;
+        g.drawString(text, x, y);
+        if (roleSelectorCommandNum == 0) {
+            g.drawString(">", x - GamePanel.tileSize, y);
+        }
+
+        // Assassin
+        text = "Assassin";
+        x = Graphics2DUtil.getDrawStringCenterX(text, gp.screenWidth, gp.screenHeight, g);
+        y += GamePanel.tileSize;
+        g.drawString(text, x, y);
+        if (roleSelectorCommandNum == 1) {
+            g.drawString(">", x - GamePanel.tileSize, y);
+        }
+
+        // Sorcerer
+        text = "Sorcerer";
+        x = Graphics2DUtil.getDrawStringCenterX(text, gp.screenWidth, gp.screenHeight, g);
+        y += GamePanel.tileSize;
+        g.drawString(text, x, y);
+        if (roleSelectorCommandNum == 2) {
+            g.drawString(">", x - GamePanel.tileSize, y);
+        }
+
+        // Back
+        text = "Back";
+        x = Graphics2DUtil.getDrawStringCenterX(text, gp.screenWidth, gp.screenHeight, g);
+        y += 3 * GamePanel.tileSize;
+        g.drawString(text, x, y);
+        if (roleSelectorCommandNum == 3) {
+            g.drawString(">", x - GamePanel.tileSize, y);
+        }
+
+    }
+
+    /**
+     * 欢迎命令选择页
+     * @param g /
+     */
+    private void drawWelcomeCommandSelector(Graphics2D g) {
         // BACKGROUND
         g.setColor(new Color(0, 0, 0));
         g.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
@@ -139,6 +206,9 @@ public class UI {
         }
     }
 
+    /**
+     * 上一条命令
+     */
     public void prevCommand() {
         if (commandNum == 0) {
             commandNum = maxCommandNum - 1;
@@ -147,11 +217,36 @@ public class UI {
         }
     }
 
+    /**
+     * 吓一跳命令
+     */
     public void nextCommand() {
         if (commandNum == maxCommandNum - 1) {
             commandNum = 0;
         } else {
             commandNum++;
+        }
+    }
+
+
+    /**
+     * 执行命令
+     */
+    public void executeCommand() {
+        if (commandNum < 0 || commandNum >= maxCommandNum) {
+            return;
+        }
+
+        switch (commandNum) {
+            case 0: // 开始新游戏
+                tileSubState = TitleSubState.ROLE_SELECTOR;
+                break;
+            case 1: // 加载游戏
+                // TODO 完成加载游戏记录功能
+                break;
+            case 2: // 退出
+                System.exit(0);
+                break;
         }
     }
 

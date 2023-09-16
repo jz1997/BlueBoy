@@ -15,4 +15,9 @@ public class Graphics2DUtil {
     public static Point getDrawCenterPoint(int screenWidth, int screenHeight, int width, int height) {
         return new Point((screenWidth - width) / 2, (screenHeight - height) / 2);
     }
+
+    public static int getDrawStringCenterX(String text, int screenWidth, int screenHeight, Graphics2D g) {
+        int stringWidth = (int) getStringWidth(text, g);
+        return getDrawCenterPoint(screenWidth, screenHeight, stringWidth, 0).x;
+    }
 }

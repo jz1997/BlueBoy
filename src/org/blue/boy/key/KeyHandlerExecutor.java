@@ -40,9 +40,6 @@ public class KeyHandlerExecutor {
             case RELEASED:
                 keyHandler.handleReleased(e);
                 break;
-            case RESET:
-                keyHandler.reset();
-                break;
         }
     }
 

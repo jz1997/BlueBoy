@@ -8,6 +8,4 @@ public interface KeyHandler {
     void handlePressed(KeyEvent e);
 
     void handleReleased(KeyEvent e);
-
-    void reset();
 }
