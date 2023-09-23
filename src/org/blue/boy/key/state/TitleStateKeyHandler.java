@@ -16,12 +16,15 @@ public class TitleStateKeyHandler extends AbstractKeyHandler {
 
     @Override
     public void handlePressed(KeyEvent e) {
-        int code = e.getKeyCode();
-        switch (code) {
-            case KeyEvent.VK_W: gp.ui.prevCommand(); break;
-            case KeyEvent.VK_S: gp.ui.nextCommand(); break;
-            case KeyEvent.VK_ENTER: gp.ui.executeCommand(); break;
+        switch (gp.ui.titleSubState) {
+            case WELCOME_COMMAND_SELECTOR:
+                gp.ui.welcomeScreen.handleKeyPressed(e);
+                break;
+            case ROLE_SELECTOR:
+                gp.ui.roleSelectScreen.handleKeyPressed(e);
+                break;
         }
+
     }
 
     @Override
