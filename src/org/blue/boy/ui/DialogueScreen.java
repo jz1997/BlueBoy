@@ -1,11 +1,9 @@
-package org.blue.boy.screen;
+package org.blue.boy.ui;
 
 import org.blue.boy.main.GamePanel;
-import org.blue.boy.main.UI;
 import org.blue.boy.utils.Graphics2DUtil;
 
 import java.awt.*;
-import java.util.Optional;
 
 public class DialogueScreen extends AbstractScreen {
     public DialogueScreen(GamePanel gp) {

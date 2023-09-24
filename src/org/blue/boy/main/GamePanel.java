@@ -3,8 +3,11 @@ package org.blue.boy.main;
 import org.blue.boy.entity.Entity;
 import org.blue.boy.entity.Player;
 import org.blue.boy.entity.SuperObject;
+import org.blue.boy.event.EventHandler;
 import org.blue.boy.key.KeyHandlerExecutor;
 import org.blue.boy.object.AssetSetter;
+import org.blue.boy.ui.HUD;
+import org.blue.boy.ui.UI;
 import org.blue.boy.sound.SoundManager;
 import org.blue.boy.tile.TileManager;
 import org.blue.boy.utils.CollisionChecker;
@@ -48,10 +51,11 @@ public class GamePanel extends JPanel implements Runnable {
     public SoundManager musicManager = new SoundManager(this);
     public SoundManager seManager = new SoundManager(this);
     public UI ui = new UI(this);
+    public HUD hud = new HUD(this);
     public SuperObject[] objects = new SuperObject[10];
     public Entity[] npcs = new Entity[10];
     public Player player = new Player(this, keyListener);
-
+    public EventHandler eventHandler = new EventHandler(this);
     // 游戏状态
     public GameState gameState = GameState.TITLE;
 

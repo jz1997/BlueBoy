@@ -1,4 +1,4 @@
-package org.blue.boy.screen;
+package org.blue.boy.ui;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

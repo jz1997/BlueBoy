@@ -2,6 +2,7 @@ package org.blue.boy.key.state;
 
 import org.blue.boy.key.AbstractKeyHandler;
 import org.blue.boy.main.GamePanel;
+import org.blue.boy.main.GameState;
 
 import java.awt.event.KeyEvent;
 
@@ -21,6 +22,8 @@ public class DialogueStateKeyHandler extends AbstractKeyHandler {
         if (code == KeyEvent.VK_ENTER) {
             if (gp.player.currentInteractNPC != null) {
                 gp.player.currentInteractNPC.speak();
+            } else {
+                gp.gameState = GameState.PLAY;
             }
         }
     }

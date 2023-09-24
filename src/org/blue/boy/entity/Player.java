@@ -10,8 +10,6 @@ import java.util.logging.Logger;
 import static org.blue.boy.main.Direction.*;
 
 public class Player extends Entity {
-    private static final Logger LOG = Logger.getLogger("Player");
-
     public KeyListener keyListener;
     public final int screenX;
     public final int screenY;
@@ -102,6 +100,9 @@ public class Player extends Entity {
         // 检测 NPC 碰撞
         int npcIndex = gp.collisionChecker.checkEntity(this, gp.npcs);
         interactNPC(npcIndex);
+
+        // 检查事件
+        gp.eventHandler.checkEvent();
     }
 
     /**

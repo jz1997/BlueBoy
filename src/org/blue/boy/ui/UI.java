@@ -1,10 +1,8 @@
-package org.blue.boy.main;
+package org.blue.boy.ui;
 
+import org.blue.boy.main.GamePanel;
+import org.blue.boy.main.TitleSubState;
 import org.blue.boy.object.OBJ_Heart;
-import org.blue.boy.screen.DialogueScreen;
-import org.blue.boy.screen.PausedScreen;
-import org.blue.boy.screen.RoleSelectScreen;
-import org.blue.boy.screen.WelcomeScreen;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -67,39 +65,18 @@ public class UI {
                 if (messageOn) {
                     drawMessage(g2d);
                 }
-
-                drawHeart(g2d);
+                gp.hud.draw(g2d);
                 break;
             case PAUSED:
+                gp.hud.draw(g2d);
                 pausedScreen.draw(g2d, null);
                 break;
             case DIALOGUE:
+                gp.hud.draw(g2d);
                 dialogueScreen.draw(g2d, dialogueContent);
                 break;
             case TITLE:
                 drawTitleScreen(g2d);
-        }
-    }
-
-    private void drawHeart(Graphics2D g2d) {
-        int i = 0;
-        int x = GamePanel.tileSize / 2, y = GamePanel.tileSize / 2;
-        while (i < gp.player.maxLife) {
-            g2d.drawImage(heartBlank, x, y, null);
-            i += 2;
-            x += GamePanel.tileSize;
-        }
-
-        i = 0;
-        x = GamePanel.tileSize / 2;
-        while (i < gp.player.life) {
-            g2d.drawImage(heartFull, x, y, null);
-            i += 2;
-            x += GamePanel.tileSize;
-        }
-        if (gp.player.life % 2 != 0) {
-            x -= GamePanel.tileSize;
-            g2d.drawImage(heartHalf, x, y, null);
         }
     }
 
