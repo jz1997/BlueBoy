@@ -8,9 +8,7 @@ import java.awt.*;
 
 public class EventHandler {
     public Rectangle eventRect;
-
     public GamePanel gp;
-
     public boolean eventState = true;
 
     public EventHandler(GamePanel gp) {
@@ -26,6 +24,14 @@ public class EventHandler {
             gp.ui.dialogueContent = "You fall into a pit!";
             gp.player.life -= 1;
             eventState = false;
+        } else if (hit(12, 23, Direction.UP)) {
+            if (gp.keyListener.enterPressed) {
+                gp.keyListener.resetKeyFlagState();
+                gp.gameState = GameState.DIALOGUE;
+                gp.ui.dialogueContent = "You drink the water. Your life has been recovered.";
+                gp.player.life = gp.player.maxLife;
+                gp.keyListener.enterPressed = false;
+            }
         }
     }
 

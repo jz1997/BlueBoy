@@ -39,6 +39,8 @@ public class PlayStateKeyHandler extends AbstractKeyHandler {
             gp.gameState = GameState.PAUSED;
         }
         if (code == KeyEvent.VK_ENTER) {
+            gp.keyListener.enterPressed = true;
+
             if (gp.player.currentInteractNPC != null) {
                 gp.gameState = GameState.DIALOGUE;
                 gp.player.currentInteractNPC.speak();
@@ -60,6 +62,9 @@ public class PlayStateKeyHandler extends AbstractKeyHandler {
         }
         if (code == KeyEvent.VK_D) {
             gp.keyListener.rightPressed = false;
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            gp.keyListener.enterPressed = false;
         }
     }
 }
