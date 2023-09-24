@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class SuperObject {
-    public BufferedImage image;
+    public BufferedImage image, image2, image3;
     public String name;
     public Rectangle solidArea = new Rectangle(0, 0, GamePanel.tileSize, GamePanel.tileSize);
     public boolean collision = false;

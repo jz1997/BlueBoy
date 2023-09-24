@@ -39,6 +39,10 @@ public class Player extends Entity {
         speed = 4;
         direction = DOWN;
 
+        // 设置生命
+        maxLife = 6;
+        life = 6;
+
         up1 = gp.fileUtil.loadImageAndScale("/player/boy_up_1.png", GamePanel.tileSize, GamePanel.tileSize);
         up2 = gp.fileUtil.loadImageAndScale("/player/boy_up_2.png", GamePanel.tileSize, GamePanel.tileSize);
         down1 = gp.fileUtil.loadImageAndScale("/player/boy_down_1.png", GamePanel.tileSize, GamePanel.tileSize);

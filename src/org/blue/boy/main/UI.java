@@ -1,11 +1,13 @@
 package org.blue.boy.main;
 
+import org.blue.boy.object.OBJ_Heart;
 import org.blue.boy.screen.DialogueScreen;
 import org.blue.boy.screen.PausedScreen;
 import org.blue.boy.screen.RoleSelectScreen;
 import org.blue.boy.screen.WelcomeScreen;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class UI {
     GamePanel gp;
@@ -34,14 +36,21 @@ public class UI {
 
     // 对话窗口
     public DialogueScreen dialogueScreen;
+    public BufferedImage heartFull, heartHalf, heartBlank;
 
     public UI(GamePanel gp) {
         this.gp = gp;
 
+        // 初始化屏幕
         welcomeScreen = new WelcomeScreen(gp);
         roleSelectScreen = new RoleSelectScreen(gp);
         pausedScreen = new PausedScreen(gp);
         dialogueScreen = new DialogueScreen(gp);
+
+        OBJ_Heart objHeart = new OBJ_Heart(gp);
+        heartFull = objHeart.image;
+        heartHalf = objHeart.image2;
+        heartBlank = objHeart.image3;
 
         // 初始化字体
         initFont();
@@ -58,6 +67,8 @@ public class UI {
                 if (messageOn) {
                     drawMessage(g2d);
                 }
+
+                drawHeart(g2d);
                 break;
             case PAUSED:
                 pausedScreen.draw(g2d, null);
@@ -67,6 +78,28 @@ public class UI {
                 break;
             case TITLE:
                 drawTitleScreen(g2d);
+        }
+    }
+
+    private void drawHeart(Graphics2D g2d) {
+        int i = 0;
+        int x = GamePanel.tileSize / 2, y = GamePanel.tileSize / 2;
+        while (i < gp.player.maxLife) {
+            g2d.drawImage(heartBlank, x, y, null);
+            i += 2;
+            x += GamePanel.tileSize;
+        }
+
+        i = 0;
+        x = GamePanel.tileSize / 2;
+        while (i < gp.player.life) {
+            g2d.drawImage(heartFull, x, y, null);
+            i += 2;
+            x += GamePanel.tileSize;
+        }
+        if (gp.player.life % 2 != 0) {
+            x -= GamePanel.tileSize;
+            g2d.drawImage(heartHalf, x, y, null);
         }
     }
 

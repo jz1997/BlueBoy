@@ -30,6 +30,10 @@ public abstract class Entity {
     public String[] dialogues = new String[20];
     public int dialogueIndex = 0;
 
+    // 属性
+    public int maxLife;
+    public int life;
+
     public Entity(GamePanel gp) {
         this.gp = gp;
 
