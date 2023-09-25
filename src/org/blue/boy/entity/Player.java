@@ -148,4 +148,8 @@ public class Player extends Entity {
     public void speak() {
 
     }
+
+    public void subLife(int subLife) {
+        this.life -= subLife;
+    }
 }

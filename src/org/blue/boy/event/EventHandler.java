@@ -19,19 +19,27 @@ public class EventHandler {
 
     public void checkEvent() {
         if (hit(16, 27, Direction.RIGHT) && eventState) {
+            fallIntoPit();
+        } else if (hit(12, 23, Direction.UP)) {
+            drinkWater();
+        }
+    }
+
+    private void fallIntoPit() {
+        gp.keyListener.resetKeyFlagState();
+        gp.gameState = GameState.DIALOGUE;
+        gp.ui.dialogueContent = "You fall into a pit!";
+        gp.player.subLife(1);
+        eventState = false;
+    }
+
+    private void drinkWater() {
+        if (gp.keyListener.enterPressed) {
             gp.keyListener.resetKeyFlagState();
             gp.gameState = GameState.DIALOGUE;
-            gp.ui.dialogueContent = "You fall into a pit!";
-            gp.player.life -= 1;
-            eventState = false;
-        } else if (hit(12, 23, Direction.UP)) {
-            if (gp.keyListener.enterPressed) {
-                gp.keyListener.resetKeyFlagState();
-                gp.gameState = GameState.DIALOGUE;
-                gp.ui.dialogueContent = "You drink the water. Your life has been recovered.";
-                gp.player.life = gp.player.maxLife;
-                gp.keyListener.enterPressed = false;
-            }
+            gp.ui.dialogueContent = "You drink the water. Your life has been recovered.";
+            gp.player.life = gp.player.maxLife;
+            gp.keyListener.enterPressed = false;
         }
     }
 
