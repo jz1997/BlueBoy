@@ -5,7 +5,6 @@ import org.blue.boy.main.KeyListener;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.logging.Logger;
 
 import static org.blue.boy.main.Direction.*;
 
@@ -133,7 +132,7 @@ public class Player extends Entity {
             return;
         }
         // gp.gameState = GameState.DIALOGUE;
-        keyListener.resetKeyFlagState();
+        keyListener.resetMoveKeyState();
         currentInteractNPC = gp.npcs[index];
         // gp.npcs[index].speak();
     }
@@ -151,5 +150,20 @@ public class Player extends Entity {
 
     public void subLife(int subLife) {
         this.life -= subLife;
+    }
+
+    public void restoreMaxLife() {
+        life = maxLife;
+    }
+
+    /**
+     * 传送
+     *
+     * @param row 行
+     * @param col 列
+     */
+    public void teleport(int row, int col) {
+        worldX = GamePanel.tileSize * col;
+        worldY = GamePanel.tileSize * row;
     }
 }

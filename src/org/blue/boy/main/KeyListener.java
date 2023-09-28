@@ -44,7 +44,7 @@ public class KeyListener implements java.awt.event.KeyListener {
         gp.keyHandlerExecutor.execute(e, KeyEventType.RELEASED);
     }
 
-    public void resetKeyFlagState() {
+    public void resetMoveKeyState() {
         leftPressed = false;
         rightPressed = false;
         upPressed = false;
