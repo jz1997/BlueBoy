@@ -2,7 +2,6 @@ package org.blue.boy.main;
 
 import org.blue.boy.entity.Entity;
 import org.blue.boy.entity.Player;
-import org.blue.boy.entity.SuperObject;
 import org.blue.boy.event.EventHandler;
 import org.blue.boy.key.KeyHandlerExecutor;
 import org.blue.boy.object.AssetSetter;
@@ -15,8 +14,8 @@ import org.blue.boy.utils.FileUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.*;
+import java.util.List;
 
 public class GamePanel extends JPanel implements Runnable {
     // 屏幕设置
@@ -52,9 +51,13 @@ public class GamePanel extends JPanel implements Runnable {
     public SoundManager seManager = new SoundManager(this);
     public UI ui = new UI(this);
     public HUD hud = new HUD(this);
-    public SuperObject[] objects = new SuperObject[10];
+
+    // object, player, npc
+    public Entity[] objects = new Entity[10];
     public Entity[] npcs = new Entity[10];
     public Player player = new Player(this, keyListener);
+    public List<Entity> entityList = new ArrayList<>();
+
     public EventHandler eventHandler = new EventHandler(this);
     // 游戏状态
     public GameState gameState = GameState.TITLE;
@@ -142,22 +145,16 @@ public class GamePanel extends JPanel implements Runnable {
             // draw tiles
             tileManager.draw(g2d);
 
-            // draw objects, such as key, door ...
-            for (SuperObject object : objects) {
-                if (object != null) {
-                    object.draw(g2d, this);
-                }
-            }
+            // 绘制 entity list
+            entityList.addAll(Arrays.asList(objects));
+            entityList.addAll(Arrays.asList(npcs));
+            entityList.add(player);
 
-            // 绘制 npc
-            for (Entity npc : npcs) {
-                if (npc != null) {
-                    npc.draw(g2d);
-                }
-            }
+            // 根据 worldY 坐标进行排序
+            entityList.stream().filter(Objects::nonNull).sorted(Comparator.comparingInt(e -> e.worldY)).forEach(e -> e.draw(g2d));
 
-            // draw player
-            player.draw(g2d);
+            // 清空 entity list
+            entityList.clear();
 
             // ui
             ui.draw(g2d);

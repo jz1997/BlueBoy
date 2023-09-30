@@ -14,6 +14,10 @@ public abstract class AbstractNPC extends Entity {
 
     public AbstractNPC(GamePanel gp) {
         super(gp);
+        solidArea.x = 0;
+        solidArea.y = 16;
+        solidArea.width = 48;
+        solidArea.height = 32;
     }
 
     @Override
@@ -88,10 +92,18 @@ public abstract class AbstractNPC extends Entity {
     private void updateDirectionToPlayer() {
         Direction playerDirection = gp.player.direction;
         switch (playerDirection) {
-            case UP: direction = Direction.DOWN; break;
-            case DOWN: direction = Direction.UP; break;
-            case LEFT: direction = Direction.RIGHT; break;
-            case RIGHT: direction = Direction.LEFT; break;
+            case UP:
+                direction = Direction.DOWN;
+                break;
+            case DOWN:
+                direction = Direction.UP;
+                break;
+            case LEFT:
+                direction = Direction.RIGHT;
+                break;
+            case RIGHT:
+                direction = Direction.LEFT;
+                break;
         }
     }
 }

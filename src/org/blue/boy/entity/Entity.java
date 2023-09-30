@@ -30,6 +30,11 @@ public abstract class Entity {
     public String[] dialogues = new String[20];
     public int dialogueIndex = 0;
 
+    // Object
+    public BufferedImage image, image2, image3;
+    public String name;
+    public boolean collision = false;
+
     // 属性
     public int maxLife;
     public int life;

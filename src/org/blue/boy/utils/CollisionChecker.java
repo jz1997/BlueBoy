@@ -2,7 +2,6 @@ package org.blue.boy.utils;
 
 import org.blue.boy.entity.Entity;
 import org.blue.boy.entity.Player;
-import org.blue.boy.entity.SuperObject;
 import org.blue.boy.main.Direction;
 import org.blue.boy.main.GamePanel;
 
@@ -72,7 +71,7 @@ public class CollisionChecker {
     public int checkObject(Entity entity, boolean isPlayer) {
         Rectangle entityWorldRectangle = entity.getWorldNextStepRectangle();
         for (int i = 0; i < gp.objects.length; i++) {
-            SuperObject obj = gp.objects[i];
+            Entity obj = gp.objects[i];
             if (obj == null) {
                 continue;
             }

@@ -114,7 +114,7 @@ public class Player extends Entity {
             return;
         }
 
-        SuperObject object = gp.objects[objIndex];
+        Entity object = gp.objects[objIndex];
         if (object == null) {
             return;
         }
