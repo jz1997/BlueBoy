@@ -6,33 +6,39 @@ import org.blue.boy.main.GameState;
 
 import java.awt.*;
 
+/**
+ * 事件处理器
+ * @author jiangzheng
+ * @createDate 2023/10/1
+ * @version 0001
+ */
 public class EventHandler {
-    public Rectangle eventRect;
     public GamePanel gp;
-    public boolean eventState = true;
+
+    public EventManager eventManager;
 
     public EventHandler(GamePanel gp) {
         this.gp = gp;
 
-        eventRect = new Rectangle(23, 23, 2, 2);
+        eventManager = new EventManager(gp);
     }
 
     public void checkEvent() {
-        if (hit(16, 27, Direction.RIGHT) && eventState) {
-            // fallIntoPit();
+        if (hit(16, 27, Direction.RIGHT)) {
+            fallIntoPit(16, 27);
             // Teleport
-            teleport();
+            // teleport();
         } else if (hit(12, 23, Direction.UP)) {
             drinkWater();
         }
     }
 
-    private void fallIntoPit() {
+    private void fallIntoPit(int row, int col) {
         gp.keyListener.resetMoveKeyState();
         gp.gameState = GameState.DIALOGUE;
         gp.ui.dialogueContent = "You fall into a pit!";
         gp.player.subLife(1);
-        eventState = false;
+        eventManager.disableEvent(row, col);
     }
 
     private void teleport() {
@@ -57,31 +63,25 @@ public class EventHandler {
 
     /**
      * 检测事件是否和玩家碰撞
-     * @param eventRow 事件行
-     * @param eventCol 事件列
+     * @param row 事件行
+     * @param col 事件列
      * @param requireDirection 事件发生需要的移动方向 {@link Direction}
      * @return /
      */
-    public boolean hit(int eventRow, int eventCol, Direction requireDirection) {
+    public boolean hit(int row, int col, Direction requireDirection) {
         boolean hit = false;
+        Event event = eventManager.getEvent(row, col);
 
         Rectangle playerWorldRect = gp.player.getWorldRectangle();
-        Rectangle eventWorldRect = getWorldRectangle(eventRow, eventCol);
+        Rectangle eventWorldRect = event.getWorldRectangle();
         if (playerWorldRect.intersects(eventWorldRect)) {
             if (gp.player.direction.equals(requireDirection) || gp.player.direction.equals(Direction.ANY)) {
-                hit = true;
+                hit = !event.disabled;
             }
         } else {
-            eventState = true;
+            event.disabled = false;
         }
 
         return hit;
-    }
-
-    public Rectangle getWorldRectangle(int row, int col) {
-        int x = col * GamePanel.tileSize;
-        int y = row * GamePanel.tileSize;
-
-        return new Rectangle(x + eventRect.x, y + eventRect.y, eventRect.width, eventRect.height);
     }
 }
