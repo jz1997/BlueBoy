@@ -69,6 +69,12 @@ public abstract class AbstractNPC extends Entity {
 
         // 检测和 player 的碰撞
         gp.collisionChecker.checkPlayer(this);
+
+        // 检测 npc 碰撞
+        gp.collisionChecker.checkEntity(this, gp.npcs);
+
+        // 检测 monster 碰撞
+        gp.collisionChecker.checkEntity(this, gp.monsters);
     }
 
     @Override

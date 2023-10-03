@@ -100,6 +100,10 @@ public class Player extends Entity {
         int npcIndex = gp.collisionChecker.checkEntity(this, gp.npcs);
         interactNPC(npcIndex);
 
+        // 检测 monster 碰撞
+        int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
+        attackMonster(monsterIndex);
+
         // 检查事件
         gp.eventHandler.checkEvent();
     }
@@ -136,6 +140,18 @@ public class Player extends Entity {
         currentInteractNPC = gp.npcs[index];
         // gp.npcs[index].speak();
     }
+
+    /**
+     * 攻击怪物
+     *
+     * @param monsterIndex /
+     */
+    private void attackMonster(int monsterIndex) {
+        if (monsterIndex == -1) {
+            return;
+        }
+    }
+
 
     @Override
     public void draw(Graphics2D g2d) {

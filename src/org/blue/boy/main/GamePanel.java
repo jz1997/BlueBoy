@@ -123,6 +123,9 @@ public class GamePanel extends JPanel implements Runnable {
 
             // NPC update
             Arrays.stream(npcs).filter(Objects::nonNull).forEach(Entity::update);
+
+            // Monsters update
+            Arrays.stream(monsters).filter(Objects::nonNull).forEach(Entity::update);
         } else if (gameState == GameState.PAUSED) {
             // 游戏暂停需要进行的操作
         }
@@ -152,6 +155,7 @@ public class GamePanel extends JPanel implements Runnable {
             // 绘制 entity list
             entityList.addAll(Arrays.asList(objects));
             entityList.addAll(Arrays.asList(npcs));
+            entityList.addAll(Arrays.asList(monsters));
             entityList.add(player);
 
             // 根据 worldY 坐标进行排序

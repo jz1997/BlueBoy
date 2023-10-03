@@ -99,7 +99,7 @@ public class CollisionChecker {
         Rectangle entityWorldRectangle = entity.getWorldNextStepRectangle();
         for (int i = 0; i < targets.length; i++) {
             Entity targetEntity = targets[i];
-            if (targetEntity == null) {
+            if (targetEntity == null || targetEntity == entity) {
                 continue;
             }
 
