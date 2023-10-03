@@ -1,5 +1,6 @@
 package org.blue.boy.object;
 
+import org.blue.boy.entity.MONSTER_GreenSlime;
 import org.blue.boy.entity.NPC_OldMan;
 import org.blue.boy.main.GamePanel;
 
@@ -54,5 +55,16 @@ public class AssetSetter {
         gp.npcs[0] = new NPC_OldMan(gp);
         gp.npcs[0].worldX = GamePanel.tileSize * 21;
         gp.npcs[0].worldY = GamePanel.tileSize * 21;
+    }
+
+    public void setMonsters() {
+        gp.monsters[0] = new MONSTER_GreenSlime(gp);
+        gp.monsters[0].worldX = gp.worldUtil.calcWorldDistance(23);
+        gp.monsters[0].worldY = gp.worldUtil.calcWorldDistance(36);
+
+
+        gp.monsters[1] = new MONSTER_GreenSlime(gp);
+        gp.monsters[1].worldX = gp.worldUtil.calcWorldDistance(23);
+        gp.monsters[1].worldY = gp.worldUtil.calcWorldDistance(37);
     }
 }

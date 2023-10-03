@@ -44,11 +44,6 @@ public class CollisionChecker {
         }
     }
 
-    private boolean getTileCollision(int row, int col) {
-        int tileNum = gp.tileManager.mapNum[row][col];
-        return gp.tileManager.tiles[tileNum].collision;
-    }
-
     private boolean getTitleCollision(int x, int y, Direction direction, int speed) {
         switch (direction) {
             case UP:
@@ -65,6 +60,11 @@ public class CollisionChecker {
                 break;
         }
         return getTileCollision(y / GamePanel.tileSize, x / GamePanel.tileSize);
+    }
+
+    private boolean getTileCollision(int row, int col) {
+        int tileNum = gp.tileManager.mapNum[row][col];
+        return gp.tileManager.tiles[tileNum].collision;
     }
 
 

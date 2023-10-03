@@ -29,8 +29,10 @@ public abstract class AbstractNPC extends Entity {
             directionCounter = 0;
         }
 
+        // 检查碰撞
         checkCollision();
 
+        // 没有碰撞
         if (!collisionOn) {
             move();
         }
@@ -58,6 +60,8 @@ public abstract class AbstractNPC extends Entity {
     public void checkCollision() {
         // 检测和 tiles 碰撞
         collisionOn = false;
+
+        // 检测 Tile
         gp.collisionChecker.checkTile(this);
 
         // 检测和 objects 碰撞

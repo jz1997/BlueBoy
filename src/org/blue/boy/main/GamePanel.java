@@ -11,6 +11,7 @@ import org.blue.boy.sound.SoundManager;
 import org.blue.boy.tile.TileManager;
 import org.blue.boy.utils.CollisionChecker;
 import org.blue.boy.utils.FileUtil;
+import org.blue.boy.utils.WorldUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     public AssetSetter assetSetter = new AssetSetter(this);
     public FileUtil fileUtil = new FileUtil();
+    public WorldUtil worldUtil = new WorldUtil();
     public TileManager tileManager = new TileManager(this);
     public SoundManager musicManager = new SoundManager(this);
     public SoundManager seManager = new SoundManager(this);
@@ -55,6 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
     // object, player, npc
     public Entity[] objects = new Entity[10];
     public Entity[] npcs = new Entity[10];
+    public Entity[] monsters = new Entity[10];
     public Player player = new Player(this, keyListener);
     public List<Entity> entityList = new ArrayList<>();
 
@@ -77,6 +80,7 @@ public class GamePanel extends JPanel implements Runnable {
     void setUpGame() {
         assetSetter.setObject();
         assetSetter.setNPC();
+        assetSetter.setMonsters();
 
         // TODO 播放背景音乐
         // musicManager.playMusic(0, true);
