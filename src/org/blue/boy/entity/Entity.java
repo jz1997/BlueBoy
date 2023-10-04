@@ -1,6 +1,7 @@
 package org.blue.boy.entity;
 
 import org.blue.boy.main.Direction;
+import org.blue.boy.main.EntityType;
 import org.blue.boy.main.GamePanel;
 
 import java.awt.*;
@@ -38,6 +39,7 @@ public abstract class Entity {
     // 属性
     public int maxLife;
     public int life;
+    public EntityType type;
 
     public Entity(GamePanel gp) {
         this.gp = gp;

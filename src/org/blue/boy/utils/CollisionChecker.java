@@ -113,11 +113,13 @@ public class CollisionChecker {
         return -1;
     }
 
-    public void checkPlayer(Entity entity) {
+    public boolean checkPlayer(Entity entity) {
         Rectangle entityRectangle = entity.getWorldNextStepRectangle();
         Rectangle playerWorldRectangle = gp.player.getWorldRectangle();
         if (entityRectangle.intersects(playerWorldRectangle)) {
             entity.collisionOn = true;
+            return true;
         }
+        return false;
     }
 }

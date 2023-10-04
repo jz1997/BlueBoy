@@ -1,6 +1,7 @@
 package org.blue.boy.entity;
 
 import org.blue.boy.main.Direction;
+import org.blue.boy.main.EntityType;
 import org.blue.boy.main.GamePanel;
 
 import java.awt.image.BufferedImage;
@@ -13,6 +14,7 @@ public class MONSTER_GreenSlime extends AbstractNPC {
     @Override
     public void setup() {
         name = "Green Slime";
+        type = EntityType.MONSTER;
         speed = 1;
         maxLife = 4;
         life = maxLife;

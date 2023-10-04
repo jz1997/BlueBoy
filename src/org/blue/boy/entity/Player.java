@@ -1,5 +1,6 @@
 package org.blue.boy.entity;
 
+import org.blue.boy.main.EntityType;
 import org.blue.boy.main.GamePanel;
 import org.blue.boy.main.KeyListener;
 
@@ -39,6 +40,7 @@ public class Player extends Entity {
         // worldY = GamePanel.tileSize * 13;
         speed = 4;
         direction = DOWN;
+        type = EntityType.PLAYER;
 
         // 设置生命
         maxLife = 6;
@@ -175,7 +177,11 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics2D g2d) {
         BufferedImage image = getSpriteImage();
+        if (invincible) {
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        }
         g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 
     @Override
@@ -204,5 +210,14 @@ public class Player extends Entity {
     public void teleport(int row, int col) {
         worldX = GamePanel.tileSize * col;
         worldY = GamePanel.tileSize * row;
+    }
+
+    public void underAttack(Entity monster) {
+        if (invincible) {
+            return;
+        }
+        // TODO 根据怪物属性计算扣减的血量
+        subLife(1);
+        invincible = true;
     }
 }

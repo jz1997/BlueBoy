@@ -1,5 +1,6 @@
 package org.blue.boy.entity;
 
+import org.blue.boy.main.EntityType;
 import org.blue.boy.main.GamePanel;
 import org.blue.boy.main.GameState;
 
@@ -14,6 +15,7 @@ public class NPC_OldMan extends AbstractNPC {
     public void setup() {
         speed = 1;
         direction = DOWN;
+        type = EntityType.NPC;
 
         initImages();
 

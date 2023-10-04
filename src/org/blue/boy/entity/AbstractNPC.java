@@ -1,6 +1,7 @@
 package org.blue.boy.entity;
 
 import org.blue.boy.main.Direction;
+import org.blue.boy.main.EntityType;
 import org.blue.boy.main.GamePanel;
 import org.blue.boy.main.GameState;
 
@@ -67,14 +68,17 @@ public abstract class AbstractNPC extends Entity {
         // 检测和 objects 碰撞
         gp.collisionChecker.checkObject(this, false);
 
-        // 检测和 player 的碰撞
-        gp.collisionChecker.checkPlayer(this);
-
         // 检测 npc 碰撞
         gp.collisionChecker.checkEntity(this, gp.npcs);
 
         // 检测 monster 碰撞
         gp.collisionChecker.checkEntity(this, gp.monsters);
+
+        // 检测和 player 的碰撞
+        boolean checkPlayer = gp.collisionChecker.checkPlayer(this);
+        if (checkPlayer && type == EntityType.MONSTER) {
+            gp.player.underAttack(this);
+        }
     }
 
     @Override
