@@ -14,6 +14,8 @@ public class Player extends Entity {
     public final int screenY;
     public int hasKey = 0;
     public Entity currentInteractNPC = null;
+    public boolean invincible = false;
+    public int invincibleCounter = 0;
 
     public Player(GamePanel gp, KeyListener keyListener) {
         super(gp);
@@ -31,8 +33,10 @@ public class Player extends Entity {
 
     @Override
     public void setup() {
-        worldX = GamePanel.tileSize * 23;
-        worldY = GamePanel.tileSize * 21;
+        worldX = gp.worldUtil.calcWorldDistance(23); // GamePanel.tileSize * 23;
+        worldY = gp.worldUtil.calcWorldDistance(21); // GamePanel.tileSize * 21;
+        // worldX = GamePanel.tileSize * 10;
+        // worldY = GamePanel.tileSize * 13;
         speed = 4;
         direction = DOWN;
 
@@ -68,6 +72,15 @@ public class Player extends Entity {
             // 动画计数器
             updateSprite();
         }
+
+        // 更新无敌计数器
+        if (invincible) {
+            invincibleCounter++;
+            if (invincibleCounter > 60) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
     }
 
     @Override
@@ -102,7 +115,7 @@ public class Player extends Entity {
 
         // 检测 monster 碰撞
         int monsterIndex = gp.collisionChecker.checkEntity(this, gp.monsters);
-        attackMonster(monsterIndex);
+        interactMonster(monsterIndex);
 
         // 检查事件
         gp.eventHandler.checkEvent();
@@ -146,9 +159,15 @@ public class Player extends Entity {
      *
      * @param monsterIndex /
      */
-    private void attackMonster(int monsterIndex) {
+    private void interactMonster(int monsterIndex) {
         if (monsterIndex == -1) {
             return;
+        }
+
+        // 减少生命
+        if (!invincible) {
+            subLife(1);
+            invincible = true;
         }
     }
 
@@ -165,7 +184,11 @@ public class Player extends Entity {
     }
 
     public void subLife(int subLife) {
-        this.life -= subLife;
+        if (life > 0) {
+            this.life -= subLife;
+        } else {
+            // TODO 进行死亡操作
+        }
     }
 
     public void restoreMaxLife() {
