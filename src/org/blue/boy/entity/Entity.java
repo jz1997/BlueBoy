@@ -18,31 +18,32 @@ public abstract class Entity {
     public int solidAreaDefaultY;
     public boolean collisionOn = false;
 
-    // 移动速度
+    // Entity 属性
     public int speed;
-
     public Direction direction;
-
-    public BufferedImage up1, up2, left1, left2, down1, down2, right1, right2;
-    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
-
-    public int spriteCounter = 0;
-    public int spriteNum = 1;
-    public int attackSpriteCounter = 0;
     public boolean attacking = false;
-
-    public String[] dialogues = new String[20];
-    public int dialogueIndex = 0;
-
-    // Object
-    public BufferedImage image, image2, image3;
-    public String name;
-    public boolean collision = false;
-
-    // 属性
     public int maxLife;
     public int life;
     public EntityType type;
+
+    // 动画
+    public int spriteNum = 1;
+    public BufferedImage up1, up2, left1, left2, down1, down2, right1, right2;
+    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
+
+    // 计数器
+    public int spriteCounter = 0;
+    public int attackSpriteCounter = 0;
+
+
+    // 对话
+    public String[] dialogues = new String[20];
+    public int dialogueIndex = 0;
+
+    // OBJECT 相关属性
+    public BufferedImage image, image2, image3;
+    public String name;
+    public boolean collision = false;
 
     public Entity(GamePanel gp) {
         this.gp = gp;

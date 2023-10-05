@@ -46,10 +46,10 @@ public class PlayStateKeyHandler extends AbstractKeyHandler {
                 gp.gameState = GameState.DIALOGUE;
                 gp.player.currentInteractNPC.speak();
             }
+        }
+        if (code == KeyEvent.VK_J) {
             // 进行攻击
-            else {
-                gp.player.attacking = true;
-            }
+            gp.player.attacking = true;
         }
     }
 
