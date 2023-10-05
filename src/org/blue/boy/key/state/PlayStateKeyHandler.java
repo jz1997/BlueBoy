@@ -41,9 +41,14 @@ public class PlayStateKeyHandler extends AbstractKeyHandler {
         if (code == KeyEvent.VK_ENTER) {
             gp.keyListener.enterPressed = true;
 
+            // 如果有靠近的 NPC 则进行对话
             if (gp.player.currentInteractNPC != null) {
                 gp.gameState = GameState.DIALOGUE;
                 gp.player.currentInteractNPC.speak();
+            }
+            // 进行攻击
+            else {
+                gp.player.attacking = true;
             }
         }
     }

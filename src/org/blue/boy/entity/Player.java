@@ -46,6 +46,7 @@ public class Player extends Entity {
         maxLife = 6;
         life = 6;
 
+        // 加载正常的图片
         up1 = gp.fileUtil.loadImageAndScale("/player/boy_up_1.png", GamePanel.tileSize, GamePanel.tileSize);
         up2 = gp.fileUtil.loadImageAndScale("/player/boy_up_2.png", GamePanel.tileSize, GamePanel.tileSize);
         down1 = gp.fileUtil.loadImageAndScale("/player/boy_down_1.png", GamePanel.tileSize, GamePanel.tileSize);
@@ -55,11 +56,22 @@ public class Player extends Entity {
         right1 = gp.fileUtil.loadImageAndScale("/player/boy_right_1.png", GamePanel.tileSize, GamePanel.tileSize);
         right2 = gp.fileUtil.loadImageAndScale("/player/boy_right_2.png", GamePanel.tileSize, GamePanel.tileSize);
 
+        // 加载攻击图片
+        attackUp1 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_up_1.png", GamePanel.tileSize, GamePanel.tileSize * 2);
+        attackUp2 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_up_2.png", GamePanel.tileSize, GamePanel.tileSize * 2);
+        attackDown1 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_down_1.png", GamePanel.tileSize, GamePanel.tileSize * 2);
+        attackDown2 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_down_2.png", GamePanel.tileSize, GamePanel.tileSize * 2);
+        attackLeft1 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_left_1.png", GamePanel.tileSize * 2, GamePanel.tileSize);
+        attackLeft2 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_left_2.png", GamePanel.tileSize * 2, GamePanel.tileSize);
+        attackRight1 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_right_1.png", GamePanel.tileSize * 2, GamePanel.tileSize);
+        attackRight2 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_right_2.png", GamePanel.tileSize * 2, GamePanel.tileSize);
     }
 
     @Override
     public void update() {
-        if (keyListener.upPressed || keyListener.downPressed || keyListener.leftPressed || keyListener.rightPressed) {
+        if (attacking) {
+            attacking();
+        } else if (keyListener.upPressed || keyListener.downPressed || keyListener.leftPressed || keyListener.rightPressed || keyListener.enterPressed) {
             // 更新方向
             updateDirection();
 
@@ -67,7 +79,7 @@ public class Player extends Entity {
             checkCollision();
 
             // 移动
-            if (!collisionOn) {
+            if (!collisionOn && !keyListener.enterPressed) {
                 move();
             }
 
@@ -82,6 +94,21 @@ public class Player extends Entity {
                 invincible = false;
                 invincibleCounter = 0;
             }
+        }
+    }
+
+    public void attacking() {
+        attackSpriteCounter++;
+        if (attackSpriteCounter <= 5) {
+            spriteNum = 1;
+        }
+        if (attackSpriteCounter > 5 && attackSpriteCounter <= 25) {
+            spriteNum = 2;
+        }
+        if (attackSpriteCounter > 25) {
+            spriteNum = 1;
+            attackSpriteCounter = 0;
+            attacking = false;
         }
     }
 
@@ -177,10 +204,25 @@ public class Player extends Entity {
     @Override
     public void draw(Graphics2D g2d) {
         BufferedImage image = getSpriteImage();
+        int drawScreenX = screenX, drawScreenY = screenY;
+        if (attacking) {
+            switch (direction) {
+                case UP:
+                    drawScreenY -= GamePanel.tileSize;
+                    break;
+                case DOWN:
+                    break;
+                case LEFT:
+                    drawScreenX -= GamePanel.tileSize;
+                    break;
+                case RIGHT:
+                    break;
+            }
+        }
         if (invincible) {
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         }
-        g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
+        g2d.drawImage(image, drawScreenX, drawScreenY, null);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
 

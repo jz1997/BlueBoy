@@ -24,9 +24,12 @@ public abstract class Entity {
     public Direction direction;
 
     public BufferedImage up1, up2, left1, left2, down1, down2, right1, right2;
+    public BufferedImage attackUp1, attackUp2, attackDown1, attackDown2, attackLeft1, attackLeft2, attackRight1, attackRight2;
 
     public int spriteCounter = 0;
     public int spriteNum = 1;
+    public int attackSpriteCounter = 0;
+    public boolean attacking = false;
 
     public String[] dialogues = new String[20];
     public int dialogueIndex = 0;
@@ -110,31 +113,66 @@ public abstract class Entity {
         BufferedImage image = null;
         switch (direction) {
             case UP:
-                if (spriteNum == 1) {
-                    image = up1;
-                } else if (spriteNum == 2) {
-                    image = up2;
+                if (attacking) {
+                    if (spriteNum == 1) {
+                        image = attackUp1;
+                    } else if (spriteNum == 2) {
+                        image = attackUp2;
+                    }
+                } else {
+                    if (spriteNum == 1) {
+                        image = up1;
+                    } else if (spriteNum == 2) {
+                        image = up2;
+                    }
                 }
+
                 break;
             case DOWN:
-                if (spriteNum == 1) {
-                    image = down1;
-                } else if (spriteNum == 2) {
-                    image = down2;
+                if (attacking) {
+                    if (spriteNum == 1) {
+                        image = attackDown1;
+                    } else if (spriteNum == 2) {
+                        image = attackDown2;
+                    }
+                } else {
+                    if (spriteNum == 1) {
+                        image = down1;
+                    } else if (spriteNum == 2) {
+                        image = down2;
+                    }
                 }
+
                 break;
             case LEFT:
-                if (spriteNum == 1) {
-                    image = left1;
-                } else if (spriteNum == 2) {
-                    image = left2;
+                if (attacking) {
+                    if (spriteNum == 1) {
+                        image = attackLeft1;
+                    } else if (spriteNum == 2) {
+                        image = attackLeft2;
+                    }
+                } else {
+                    if (spriteNum == 1) {
+                        image = left1;
+                    } else if (spriteNum == 2) {
+                        image = left2;
+                    }
                 }
+
                 break;
             case RIGHT:
-                if (spriteNum == 1) {
-                    image = right1;
-                } else if (spriteNum == 2) {
-                    image = right2;
+                if (attacking) {
+                    if (spriteNum == 1) {
+                        image = attackRight1;
+                    } else if (spriteNum == 2) {
+                        image = attackRight2;
+                    }
+                } else {
+                    if (spriteNum == 1) {
+                        image = right1;
+                    } else if (spriteNum == 2) {
+                        image = right2;
+                    }
                 }
                 break;
         }
