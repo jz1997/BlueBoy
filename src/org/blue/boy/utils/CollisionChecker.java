@@ -122,4 +122,28 @@ public class CollisionChecker {
         }
         return false;
     }
+
+    /**
+     * 检测英雄攻击
+     *
+     * @param monsters {@link Entity} /
+     * @return /
+     */
+    public int checkPlayerAttack(Entity[] monsters) {
+        Rectangle attackRectangle = gp.player.getAttackWorldRectangle();
+        for (int i = 0; i < monsters.length; i++) {
+            Entity targetEntity = monsters[i];
+            if (targetEntity == null || targetEntity == gp.player) {
+                continue;
+            }
+
+            Rectangle targetWorldRectangle = targetEntity.getWorldRectangle();
+            // 碰撞
+            if (attackRectangle.intersects(targetWorldRectangle)) {
+                gp.player.collisionOn = true;
+                return i;
+            }
+        }
+        return -1;
+    }
 }

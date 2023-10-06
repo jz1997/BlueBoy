@@ -14,6 +14,7 @@ public abstract class Entity {
 
     // 碰撞矩形
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
     public int solidAreaDefaultX;
     public int solidAreaDefaultY;
     public boolean collisionOn = false;
@@ -35,6 +36,9 @@ public abstract class Entity {
     public int spriteCounter = 0;
     public int attackSpriteCounter = 0;
 
+    // 无敌
+    public boolean invincible = false;
+    public int invincibleCounter = 0;
 
     // 对话
     public String[] dialogues = new String[20];
@@ -197,5 +201,9 @@ public abstract class Entity {
             default:
                 return getWorldRectangle();
         }
+    }
+
+    public boolean isDead() {
+        return life == 0;
     }
 }

@@ -15,8 +15,6 @@ public class Player extends Entity {
     public final int screenY;
     public int hasKey = 0;
     public Entity currentInteractNPC = null;
-    public boolean invincible = false;
-    public int invincibleCounter = 0;
 
     public Player(GamePanel gp, KeyListener keyListener) {
         super(gp);
@@ -30,6 +28,10 @@ public class Player extends Entity {
         solidArea = new Rectangle(8, 14, 32, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+
+        // 初始化英雄攻击碰撞矩形
+        attackArea.width = 36;
+        attackArea.height = 36;
     }
 
     @Override
@@ -104,6 +106,20 @@ public class Player extends Entity {
         }
         if (attackSpriteCounter > 5 && attackSpriteCounter <= 25) {
             spriteNum = 2;
+            int monsterIndex = gp.collisionChecker.checkPlayerAttack(gp.monsters);
+            if (monsterIndex == -1) {
+                System.out.println("Miss");
+            } else {
+                Entity monster = gp.monsters[monsterIndex];
+                if (!monster.invincible) {
+                    System.out.println("Attack");
+                    monster.invincible = true;
+                    monster.life -= 1;
+                    if (monster.isDead()) {
+                        gp.monsters[monsterIndex] = null;
+                    }
+                }
+            }
         }
         if (attackSpriteCounter > 25) {
             spriteNum = 1;
@@ -220,6 +236,7 @@ public class Player extends Entity {
             }
         }
         if (invincible) {
+            // 设置透明
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
         }
         g2d.drawImage(image, drawScreenX, drawScreenY, null);
@@ -261,5 +278,25 @@ public class Player extends Entity {
         // TODO 根据怪物属性计算扣减的血量
         subLife(1);
         invincible = true;
+    }
+
+    public Rectangle getAttackWorldRectangle() {
+        int x = worldX;
+        int y = worldY;
+        switch (direction) {
+            case UP:
+                y -= solidArea.height;
+                break;
+            case DOWN:
+                y += solidArea.height;
+                break;
+            case LEFT:
+                x -= solidArea.height;
+                break;
+            case RIGHT:
+                x += solidArea.height;
+                break;
+        }
+        return new Rectangle(x + attackArea.x, y + attackArea.y, attackArea.width, attackArea.height);
     }
 }

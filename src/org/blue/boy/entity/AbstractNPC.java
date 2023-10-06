@@ -40,6 +40,15 @@ public abstract class AbstractNPC extends Entity {
 
         // 更新精灵动画
         updateSprite();
+
+        // 更新无敌计数器
+        if (invincible) {
+            invincibleCounter++;
+            if (invincibleCounter > 40) {
+                invincible = false;
+                invincibleCounter = 0;
+            }
+        }
     }
 
     @Override
@@ -87,7 +96,11 @@ public abstract class AbstractNPC extends Entity {
             BufferedImage image = getSpriteImage();
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
+            if (invincible) {
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+            }
             g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
     }
 
