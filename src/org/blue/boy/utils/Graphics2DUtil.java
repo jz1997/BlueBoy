@@ -20,4 +20,8 @@ public class Graphics2DUtil {
         int stringWidth = (int) getStringWidth(text, g);
         return getDrawCenterPoint(screenWidth, screenHeight, stringWidth, 0).x;
     }
+
+    public static void setAlpha(float alpha, Graphics2D g) {
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+    }
 }

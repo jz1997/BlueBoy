@@ -4,6 +4,7 @@ import org.blue.boy.main.Direction;
 import org.blue.boy.main.EntityType;
 import org.blue.boy.main.GamePanel;
 import org.blue.boy.main.GameState;
+import org.blue.boy.utils.Graphics2DUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,9 +24,11 @@ public abstract class AbstractNPC extends Entity {
 
     @Override
     public void update() {
+        // 死亡或者在死亡中
         if (!alive || dying) {
-            return ;
+            return;
         }
+
         // 每 directionInterval 帧后修改方向
         directionCounter++;
         if (directionInterval == directionCounter) {
@@ -45,6 +48,10 @@ public abstract class AbstractNPC extends Entity {
         updateSprite();
 
         // 更新无敌计数器
+        updateInvincible();
+    }
+
+    protected void updateInvincible() {
         if (invincible) {
             invincibleCounter++;
             if (invincibleCounter > 40) {
@@ -114,19 +121,19 @@ public abstract class AbstractNPC extends Entity {
         int duration = 10;
         dyingCounter++;
         if (dyingCounter <= duration) {
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+            Graphics2DUtil.setAlpha(0, g);
         }
         if (dyingCounter > duration && dyingCounter <= duration * 2) {
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+            Graphics2DUtil.setAlpha(1, g);
         }
         if (dyingCounter > duration * 2 && dyingCounter <= duration * 3) {
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+            Graphics2DUtil.setAlpha(0, g);
         }
         if (dyingCounter > duration * 3 && dyingCounter <= duration * 4) {
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+            Graphics2DUtil.setAlpha(1, g);
         }
         if (dyingCounter > duration * 4 && dyingCounter <= duration * 5) {
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+            Graphics2DUtil.setAlpha(0, g);
         }
         if (dyingCounter > duration * 5) {
             dying = false;

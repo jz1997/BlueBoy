@@ -101,10 +101,10 @@ public class Player extends Entity {
 
     public void attacking() {
         attackSpriteCounter++;
-        if (attackSpriteCounter <= 5) {
+        if (attackSpriteCounter <= 2) {
             spriteNum = 1;
         }
-        if (attackSpriteCounter > 5 && attackSpriteCounter <= 25) {
+        if (attackSpriteCounter > 2 && attackSpriteCounter <= 10) {
             spriteNum = 2;
             int monsterIndex = gp.collisionChecker.checkPlayerAttack(gp.monsters);
             if (monsterIndex == -1) {
@@ -120,7 +120,7 @@ public class Player extends Entity {
                 }
             }
         }
-        if (attackSpriteCounter > 25) {
+        if (attackSpriteCounter > 10) {
             spriteNum = 1;
             attackSpriteCounter = 0;
             attacking = false;
