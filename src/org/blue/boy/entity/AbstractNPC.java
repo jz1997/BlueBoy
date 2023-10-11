@@ -23,6 +23,9 @@ public abstract class AbstractNPC extends Entity {
 
     @Override
     public void update() {
+        if (!alive || dying) {
+            return ;
+        }
         // 每 directionInterval 帧后修改方向
         directionCounter++;
         if (directionInterval == directionCounter) {
@@ -99,8 +102,35 @@ public abstract class AbstractNPC extends Entity {
             if (invincible) {
                 g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
             }
+            if (dying) {
+                drawDyingAnimation(g2d);
+            }
             g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        }
+    }
+
+    protected void drawDyingAnimation(Graphics2D g) {
+        int duration = 10;
+        dyingCounter++;
+        if (dyingCounter <= duration) {
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+        }
+        if (dyingCounter > duration && dyingCounter <= duration * 2) {
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+        }
+        if (dyingCounter > duration * 2 && dyingCounter <= duration * 3) {
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+        }
+        if (dyingCounter > duration * 3 && dyingCounter <= duration * 4) {
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+        }
+        if (dyingCounter > duration * 4 && dyingCounter <= duration * 5) {
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));
+        }
+        if (dyingCounter > duration * 5) {
+            dying = false;
+            alive = false;
         }
     }
 

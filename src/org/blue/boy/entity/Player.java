@@ -108,15 +108,14 @@ public class Player extends Entity {
             spriteNum = 2;
             int monsterIndex = gp.collisionChecker.checkPlayerAttack(gp.monsters);
             if (monsterIndex == -1) {
-                System.out.println("Miss");
+                // System.out.println("Miss");
             } else {
                 Entity monster = gp.monsters[monsterIndex];
                 if (!monster.invincible) {
-                    System.out.println("Attack");
                     monster.invincible = true;
                     monster.life -= 1;
                     if (monster.isDead()) {
-                        gp.monsters[monsterIndex] = null;
+                        monster.dying = true;
                     }
                 }
             }
@@ -210,7 +209,8 @@ public class Player extends Entity {
         }
 
         // 减少生命
-        if (!invincible) {
+        Entity monster = gp.monsters[monsterIndex];
+        if (!invincible && monster.alive && !monster.dying) {
             subLife(1);
             invincible = true;
         }
@@ -242,6 +242,7 @@ public class Player extends Entity {
         g2d.drawImage(image, drawScreenX, drawScreenY, null);
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
     }
+
 
     @Override
     public void speak() {

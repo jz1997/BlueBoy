@@ -49,6 +49,11 @@ public abstract class Entity {
     public String name;
     public boolean collision = false;
 
+
+    public boolean alive = true;
+    public boolean dying = false;
+    public int dyingCounter = 0;
+
     public Entity(GamePanel gp) {
         this.gp = gp;
 

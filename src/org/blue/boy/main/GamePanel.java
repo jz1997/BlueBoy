@@ -125,7 +125,16 @@ public class GamePanel extends JPanel implements Runnable {
             Arrays.stream(npcs).filter(Objects::nonNull).forEach(Entity::update);
 
             // Monsters update
-            Arrays.stream(monsters).filter(Objects::nonNull).forEach(Entity::update);
+            for (int i = 0; i < monsters.length; i++) {
+                if (monsters[i] == null) {
+                    continue;
+                }
+                if (monsters[i].alive) {
+                    monsters[i].update();
+                } else {
+                    monsters[i] = null;
+                }
+            }
         } else if (gameState == GameState.PAUSED) {
             // 游戏暂停需要进行的操作
         }
