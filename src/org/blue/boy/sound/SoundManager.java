@@ -25,6 +25,8 @@ public class SoundManager {
         soundUrls[2] = gp.fileUtil.loadSoundURL("/sound/powerup.wav");
         soundUrls[3] = gp.fileUtil.loadSoundURL("/sound/unlock.wav");
         soundUrls[4] = gp.fileUtil.loadSoundURL("/sound/fanfare.wav");
+        soundUrls[5] = gp.fileUtil.loadSoundURL("/sound/hitmonster.wav");
+        soundUrls[6] = gp.fileUtil.loadSoundURL("/sound/receivedamage.wav");
     }
 
     public void setFile(int i) {
@@ -53,6 +55,14 @@ public class SoundManager {
 
     public void playBackgroundMusic() {
         playMusic(0, true);
+    }
+
+    public void playHitMonsterMusic() {
+        playMusic(5, false);
+    }
+
+    public void playReceiveDamageMusic() {
+        playMusic(6, false);
     }
 
     public void playMusic(int i, boolean loop) {

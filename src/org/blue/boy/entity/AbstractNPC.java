@@ -114,23 +114,34 @@ public abstract class AbstractNPC extends Entity {
             }
             // 怪物绘制血条
             // todo 需要重构
-            if (type == EntityType.MONSTER) {
+            if (type == EntityType.MONSTER && hpBarOn) {
                 Color originalColor = g2d.getColor();
                 int fullHealthBar = (int) (GamePanel.tileSize * (1.0 * life / maxLife));
                 int emptyHealthBar = GamePanel.tileSize - fullHealthBar;
                 // draw full health bar
-                g2d.setColor(Color.red);
-                g2d.fillRect(screenX, screenY - 12, fullHealthBar, 10);
+                g2d.setColor(new Color(255, 0, 30));
+                g2d.fillRect(screenX, screenY - 15, fullHealthBar, 10);
                 // draw empty health bar
-                g2d.setColor(new Color(51, 49, 50));
-                g2d.fillRect(screenX + fullHealthBar, screenY - 12, emptyHealthBar, 10);
+                g2d.setColor(new Color(35, 35, 35));
+                g2d.fillRect(screenX + fullHealthBar, screenY - 15, emptyHealthBar, 10);
                 g2d.setColor(originalColor);
+
+                hpBarOnCounter++;
+                if (hpBarOn && hpBarOnCounter >= hpBarOnDuration) {
+                    hpBarOn = false;
+                    hpBarOnCounter = 0;
+                }
             }
             g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         }
     }
 
+    /**
+     * 绘制怪物死亡动画
+     *
+     * @param g /
+     */
     protected void drawDyingAnimation(Graphics2D g) {
         int duration = 10;
         dyingCounter++;
@@ -183,5 +194,11 @@ public abstract class AbstractNPC extends Entity {
                 direction = Direction.LEFT;
                 break;
         }
+    }
+
+    @Override
+    public void damageReaction() {
+        directionCounter = 0;
+        direction = gp.player.direction;
     }
 }

@@ -26,8 +26,6 @@ public class Player extends Entity {
 
         // 初始化英雄碰撞矩形
         solidArea = new Rectangle(8, 14, 32, 32);
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
 
         // 初始化英雄攻击碰撞矩形
         attackArea.width = 36;
@@ -38,8 +36,6 @@ public class Player extends Entity {
     public void setup() {
         worldX = gp.worldUtil.calcWorldDistance(23); // GamePanel.tileSize * 23;
         worldY = gp.worldUtil.calcWorldDistance(21); // GamePanel.tileSize * 21;
-        // worldX = GamePanel.tileSize * 10;
-        // worldY = GamePanel.tileSize * 13;
         speed = 4;
         direction = DOWN;
         type = EntityType.PLAYER;
@@ -112,8 +108,11 @@ public class Player extends Entity {
             } else {
                 Entity monster = gp.monsters[monsterIndex];
                 if (!monster.invincible) {
+                    gp.musicManager.playHitMonsterMusic();
                     monster.invincible = true;
                     monster.life -= 1;
+                    monster.hpBarOn = true;
+                    monster.damageReaction();
                     if (monster.isDead()) {
                         monster.dying = true;
                     }
@@ -199,7 +198,7 @@ public class Player extends Entity {
     }
 
     /**
-     * 攻击怪物
+     * 碰撞到怪物
      *
      * @param monsterIndex /
      */
@@ -212,6 +211,7 @@ public class Player extends Entity {
         Entity monster = gp.monsters[monsterIndex];
         if (!invincible && monster.alive && !monster.dying) {
             subLife(1);
+            gp.musicManager.playReceiveDamageMusic();
             invincible = true;
         }
     }

@@ -8,15 +8,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {
+    // 主体
     public GamePanel gp;
     // 坐标信息
     public int worldX, worldY;
 
     // 碰撞矩形
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    // 攻击范围
     public Rectangle attackArea = new Rectangle(0, 0, 0, 0);
-    public int solidAreaDefaultX;
-    public int solidAreaDefaultY;
     public boolean collisionOn = false;
 
     // Entity 属性
@@ -56,6 +56,10 @@ public abstract class Entity {
     public boolean dying = false;
     public int dyingCounter = 0;
 
+    public boolean hpBarOn = false;
+    public int hpBarOnCounter = 0;
+    public int hpBarOnDuration = 600;
+
     public Entity(GamePanel gp) {
         this.gp = gp;
 
@@ -80,6 +84,9 @@ public abstract class Entity {
     public abstract void draw(Graphics2D g2d);
 
     public abstract void speak();
+
+    public void damageReaction() {
+    }
 
     /**
      * 移动
