@@ -24,7 +24,7 @@ public abstract class AbstractNPC extends Entity {
 
     @Override
     public void update() {
-        // 死亡或者在死亡中
+        // 死亡或者在死亡动画播放中
         if (!alive || dying) {
             return;
         }
@@ -111,6 +111,20 @@ public abstract class AbstractNPC extends Entity {
             }
             if (dying) {
                 drawDyingAnimation(g2d);
+            }
+            // 怪物绘制血条
+            // todo 需要重构
+            if (type == EntityType.MONSTER) {
+                Color originalColor = g2d.getColor();
+                int fullHealthBar = (int) (GamePanel.tileSize * (1.0 * life / maxLife));
+                int emptyHealthBar = GamePanel.tileSize - fullHealthBar;
+                // draw full health bar
+                g2d.setColor(Color.red);
+                g2d.fillRect(screenX, screenY - 12, fullHealthBar, 10);
+                // draw empty health bar
+                g2d.setColor(new Color(51, 49, 50));
+                g2d.fillRect(screenX + fullHealthBar, screenY - 12, emptyHealthBar, 10);
+                g2d.setColor(originalColor);
             }
             g2d.drawImage(image, screenX, screenY, GamePanel.tileSize, GamePanel.tileSize, null);
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));

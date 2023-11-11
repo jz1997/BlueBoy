@@ -25,6 +25,8 @@ public abstract class Entity {
     public boolean attacking = false;
     public int maxLife;
     public int life;
+
+    // Entity 类型
     public EntityType type;
 
     // 动画

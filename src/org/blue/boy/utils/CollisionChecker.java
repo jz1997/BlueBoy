@@ -138,7 +138,7 @@ public class CollisionChecker {
             }
 
             Rectangle targetWorldRectangle = targetEntity.getWorldRectangle();
-            // 碰撞
+            // 怪物在攻击范围之内
             if (attackRectangle.intersects(targetWorldRectangle)) {
                 gp.player.collisionOn = true;
                 return i;
