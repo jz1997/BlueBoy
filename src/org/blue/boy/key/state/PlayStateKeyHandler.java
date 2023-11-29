@@ -38,6 +38,10 @@ public class PlayStateKeyHandler extends AbstractKeyHandler {
         if (code == KeyEvent.VK_P) {
             gp.gameState = GameState.PAUSED;
         }
+        // 打开角色状态页
+        if (code == KeyEvent.VK_C) {
+            gp.gameState = GameState.CHARACTER;
+        }
         if (code == KeyEvent.VK_ENTER) {
             gp.keyListener.enterPressed = true;
 

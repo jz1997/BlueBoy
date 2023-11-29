@@ -25,6 +25,20 @@ public abstract class Entity {
     public boolean attacking = false;
     public int maxLife;
     public int life;
+    public int level;
+    public int strength;            // 力量
+    public int dexterity;           // 敏捷
+    public int attack;              // 攻击力
+    public int defense;             // 防御力
+    public int exp;                 // 经验
+    public int nextLevelExp;        // 下一等级经验
+    public int coin;                // 金币
+    public Entity currentWeapon;    // 当前武器
+    public Entity currentShield;    // 当前盾牌
+
+    // 物品属性
+    public int attackValue;
+    public int defenseValue;
 
     // Entity 类型
     public EntityType type;

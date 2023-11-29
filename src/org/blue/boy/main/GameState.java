@@ -4,5 +4,9 @@ public enum GameState {
     PLAY,
     PAUSED,
     DIALOGUE,
-    TITLE
+    TITLE,
+    /**
+     * 角色详情页状态
+     */
+    CHARACTER
 }

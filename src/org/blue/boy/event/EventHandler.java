@@ -57,6 +57,7 @@ public class EventHandler {
             gp.gameState = GameState.DIALOGUE;
             gp.ui.dialogueContent = "You drink the water. Your life has been recovered.";
             gp.player.restoreMaxLife();
+            gp.musicManager.playPowerUpMusic();
             gp.keyListener.enterPressed = false;
         }
     }

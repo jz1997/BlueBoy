@@ -3,6 +3,8 @@ package org.blue.boy.entity;
 import org.blue.boy.main.EntityType;
 import org.blue.boy.main.GamePanel;
 import org.blue.boy.main.KeyListener;
+import org.blue.boy.object.OBJ_Shield_Wood;
+import org.blue.boy.object.OBJ_Sword_Normal;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -41,8 +43,18 @@ public class Player extends Entity {
         type = EntityType.PLAYER;
 
         // 设置生命
+        level = 1;
         maxLife = 6;
         life = 6;
+        strength = 1;
+        dexterity = 1;
+        exp = 0;
+        nextLevelExp = 5;
+        coin = 0;
+        currentWeapon = new OBJ_Sword_Normal(gp);
+        currentShield = new OBJ_Shield_Wood(gp);
+        attack = getAttack();           // 总的攻击力 strength * weapon.attackValue
+        defense = getDefense();         // 总的防御力 dexterity * shield.defenseValue
 
         // 加载正常的图片
         up1 = gp.fileUtil.loadImageAndScale("/player/boy_up_1.png", GamePanel.tileSize, GamePanel.tileSize);
@@ -63,6 +75,14 @@ public class Player extends Entity {
         attackLeft2 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_left_2.png", GamePanel.tileSize * 2, GamePanel.tileSize);
         attackRight1 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_right_1.png", GamePanel.tileSize * 2, GamePanel.tileSize);
         attackRight2 = gp.fileUtil.loadImageAndScale("/player/attacking_sprites/boy_attack_right_2.png", GamePanel.tileSize * 2, GamePanel.tileSize);
+    }
+
+    public int getAttack() {
+        return attack = strength * currentWeapon.attackValue;
+    }
+
+    public int getDefense() {
+        return defense = dexterity * currentShield.defenseValue;
     }
 
     @Override
@@ -95,6 +115,9 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * 进行怪物攻击
+     */
     public void attacking() {
         attackSpriteCounter++;
         if (attackSpriteCounter <= 2) {

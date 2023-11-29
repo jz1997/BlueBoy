@@ -65,6 +65,11 @@ public class SoundManager {
         playMusic(6, false);
     }
 
+
+    public void playPowerUpMusic() {
+        playMusic(2, false);
+    }
+
     public void playMusic(int i, boolean loop) {
         setFile(i);
         play();
@@ -72,6 +77,7 @@ public class SoundManager {
             clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
     }
+
 
     public void stopMusic() {
         stop();

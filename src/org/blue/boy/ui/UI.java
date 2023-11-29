@@ -34,6 +34,10 @@ public class UI {
 
     // 对话窗口
     public DialogueScreen dialogueScreen;
+
+    // 玩家属性窗口
+    public CharacterScreen characterScreen;
+
     public BufferedImage heartFull, heartHalf, heartBlank;
 
     public UI(GamePanel gp) {
@@ -44,6 +48,7 @@ public class UI {
         roleSelectScreen = new RoleSelectScreen(gp);
         pausedScreen = new PausedScreen(gp);
         dialogueScreen = new DialogueScreen(gp);
+        characterScreen = new CharacterScreen(gp);
 
         OBJ_Heart objHeart = new OBJ_Heart(gp);
         heartFull = objHeart.image;
@@ -77,6 +82,10 @@ public class UI {
                 break;
             case TITLE:
                 drawTitleScreen(g2d);
+                break;
+            case CHARACTER:
+                characterScreen.draw(g2d, null);
+                break;
         }
     }
 

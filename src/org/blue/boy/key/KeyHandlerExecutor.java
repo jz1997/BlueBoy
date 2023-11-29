@@ -26,6 +26,7 @@ public class KeyHandlerExecutor {
         HANDLERS.put(GameState.PAUSED, new PausedStateKeyHandler(gp));
         HANDLERS.put(GameState.TITLE, new TitleStateKeyHandler(gp));
         HANDLERS.put(GameState.DIALOGUE, new DialogueStateKeyHandler(gp));
+        HANDLERS.put(GameState.CHARACTER, new CharacterStateKeyHandler(gp));
     }
 
     public void execute(KeyEvent e, KeyEventType keyType) {

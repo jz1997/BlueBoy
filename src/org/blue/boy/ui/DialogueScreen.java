@@ -40,15 +40,4 @@ public class DialogueScreen extends AbstractScreen {
         }
         g.drawString(sb.toString(), x, y);
     }
-
-    private void drawSubWindow(Graphics2D g, int x, int y, int width, int height) {
-        Color color = new Color(0, 0, 0, 210);
-        g.setColor(color);
-        g.fillRoundRect(x, y, width, height, 35, 35);
-
-        color = new Color(255, 255, 255);
-        g.setColor(color);
-        g.setStroke(new BasicStroke(5));
-        g.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
-    }
 }
