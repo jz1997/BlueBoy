@@ -95,6 +95,8 @@ public abstract class AbstractNPC extends Entity {
 
         // 检测和 player 的碰撞
         boolean checkPlayer = gp.collisionChecker.checkPlayer(this);
+
+        // 是怪物
         if (checkPlayer && type == EntityType.MONSTER) {
             gp.player.underAttack(this);
         }

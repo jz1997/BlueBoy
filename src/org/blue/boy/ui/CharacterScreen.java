@@ -1,6 +1,5 @@
 package org.blue.boy.ui;
 
-import org.blue.boy.entity.Entity;
 import org.blue.boy.main.GamePanel;
 import org.blue.boy.utils.Graphics2DUtil;
 

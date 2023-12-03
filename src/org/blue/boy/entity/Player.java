@@ -133,7 +133,13 @@ public class Player extends Entity {
                 if (!monster.invincible) {
                     gp.musicManager.playHitMonsterMusic();
                     monster.invincible = true;
-                    monster.life -= 1;
+
+                    // 扣血
+                    int damage = this.attack - monster.defense;
+                    if (damage < 0) {
+                        damage = 0;
+                    }
+                    monster.life -= damage;
                     monster.hpBarOn = true;
                     monster.damageReaction();
                     if (monster.isDead()) {
@@ -233,7 +239,11 @@ public class Player extends Entity {
         // 减少生命
         Entity monster = gp.monsters[monsterIndex];
         if (!invincible && monster.alive && !monster.dying) {
-            subLife(1);
+            int damage = monster.attack - this.defense;
+            if (damage < 0) {
+                damage = 0;
+            }
+            subLife(damage);
             gp.musicManager.playReceiveDamageMusic();
             invincible = true;
         }
@@ -299,8 +309,11 @@ public class Player extends Entity {
         if (invincible) {
             return;
         }
-        // TODO 根据怪物属性计算扣减的血量
-        subLife(1);
+        int damage = monster.attack - this.defense;
+        if (damage < 0) {
+            damage = 0;
+        }
+        subLife(damage);
         invincible = true;
     }
 

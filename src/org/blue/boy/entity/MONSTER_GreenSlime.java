@@ -25,6 +25,9 @@ public class MONSTER_GreenSlime extends AbstractNPC {
         solidArea.width = 42;
         solidArea.height = 30;
 
+        attack = 2;
+        defense = 0;
+
         loadImages();
     }
 
